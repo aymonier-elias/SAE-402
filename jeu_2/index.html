@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini-Jeu : Rue des Tanneurs</title>
+    <link rel="preload" href="style/style.css?v=12" as="style">
+    <link rel="stylesheet" href="style/style.css?v=12">
+</head>
+<body>
+
+<!-- En tête -->
+<div id="entete">
+    <div class="ent-titre">RUE DES TANNEURS</div>
+    <div class="ent-temps" id="temps">2:00</div>
+</div>
+
+<!-- Canvas -->
+<div id="enveloppeurCanvas">
+    <canvas id="canvasJeu"></canvas>
+</div>
+
+<!-- Instruction -->
+<div id="barreInstruction">Inclinez votre téléphone pour guider la balle</div>
+
+<!-- Notification -->
+<div id="notification"></div>
+
+<!-- Décompte -->
+<div id="decompte"><div id="numeroDecompte">3</div></div>
+
+<!-- Sélection de niveau -->
+<div id="selectionNiveau">
+    <div class="titre-selection">
+      Rue des Tanneurs
+      <small>Chapitre II</small>
+    </div>
+    <div class="separateur">✦</div>
+    <div class="bulle-consignes">
+      <p>Inclinez votre téléphone pour guider la balle le long du motif doré sans toucher les bords.</p>
+      <p>Vous avez <strong>2 minutes</strong> pour atteindre l'étoile.</p>
+    </div>
+    <div class="enveloppeur-bouton">
+      <button class="bouton-commencer" onclick="choisirNiveau()">Commencer</button>
+    </div>
+</div>
+
+<!-- Victoire -->
+<div id="superpositionVictoire">
+    <div class="titre-selection">
+      Rue des Tanneurs
+      <small>Motif accompli</small>
+    </div>
+    <div class="separateur">✦</div>
+    <div class="enveloppeur-motif">
+      <canvas id="canvasMotifVictoire"></canvas>
+    </div>
+    <div class="bulle-consignes">
+      <p>Vous avez guidé la balle jusqu'à l'étoile.</p>
+    </div>
+    <div class="boutons-victoire">
+      <button class="bouton-commencer" onclick="rejouer()">Rejouer</button>
+      <button class="bouton-commencer bouton-continuer" onclick="allerSelection()">Continuer</button>
+    </div>
+    <button class="bouton-retour" onclick="allerSelection()">← Retour</button>
+</div>
+
+<!-- Défaite -->
+<div id="superpositionDefaite">
+    <div class="titre-selection">
+      Rue des Tanneurs
+      <small>Partie terminée</small>
+    </div>
+    <div class="separateur">✦</div>
+    <div class="bulle-consignes">
+      <p id="raisonDefaite">La balle est tombée dans un trou !</p>
+    </div>
+    <div class="enveloppeur-bouton">
+      <button class="bouton-commencer" onclick="rejouer()">Réessayer</button>
+    </div>
+    <button class="bouton-retour" onclick="allerSelection()">← Accueil</button>
+</div>
+
+<canvas id="canvasConfettis"></canvas>
+
+<script src="JS/script.js?v=12"></script>
+</body>
+</html>

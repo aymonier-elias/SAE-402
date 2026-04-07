@@ -1,0 +1,686 @@
+/* ═══════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════ */
+const CFG = {
+  corridor:      30,
+  totalSec:     120,
+  timePenalty:   15,
+  gravite:      0.02,
+  amortissement: 0.84,
+  vitesseMax:    3,
+  trailMax:      40,
+  rayonBalle:    8,
+  nbTrous:       5,    // nombre de trous sur le chemin
+  rayonTrou:     12,   // rayon visuel du trou
+};
+
+const DEPART = [0.50, 0.95];
+const ARRIVEE = [0.50, 0.05];
+
+const POURCENTAGES_CHEMIN = [
+  DEPART,
+  [0.50, 0.85],
+  [0.20, 0.85],
+  [0.20, 0.74],
+  [0.65, 0.74],
+  [0.65, 0.63],
+  [0.35, 0.63],
+  [0.35, 0.52],
+  [0.75, 0.52],
+  [0.75, 0.40],
+  [0.25, 0.40],
+  [0.25, 0.28],
+  [0.60, 0.28],
+  [0.60, 0.17],
+  [0.40, 0.17],
+  ARRIVEE,
+];
+
+/* ═══════════════════════════════════════════
+   ÉTAT
+═══════════════════════════════════════════ */
+let secondesRestantes = CFG.totalSec;
+let intervalleMinuterie;
+let jeuActif        = false;
+let penaliteEnCours = false;
+let balle           = { x: 0, y: 0, vx: 0, vy: 0 };
+let inclinaison     = { gamma: 0, beta: 0 };
+let pointsTrace     = [];
+let pointsChemin    = [];
+let trous           = [];
+let progression     = 0;
+let partiesConfettis = [];
+
+/* ═══════════════════════════════════════════
+   DOM
+═══════════════════════════════════════════ */
+const canvas          = document.getElementById('canvasJeu');
+const ctx             = canvas.getContext('2d');
+const canvasConfettis = document.getElementById('canvasConfettis');
+const ctxConfettis    = canvasConfettis.getContext('2d');
+const elementTemps    = document.getElementById('temps');
+const elementInstruction = document.getElementById('barreInstruction');
+
+/* ═══════════════════════════════════════════
+   IMAGE
+═══════════════════════════════════════════ */
+const imgFond = new Image();
+imgFond.src = './IMG/Fichier 2rue des tanneurs.png';
+
+/* ═══════════════════════════════════════════
+   REDIMENSIONNEMENT
+═══════════════════════════════════════════ */
+const RATIO_IMAGE = 600 / 1008;
+let LG, HT;
+
+function redimensionner() {
+  const lv = window.innerWidth, hv = window.innerHeight;
+  if (lv / hv < RATIO_IMAGE) {
+    LG = lv; HT = Math.round(lv / RATIO_IMAGE);
+  } else {
+    HT = hv; LG = Math.round(hv * RATIO_IMAGE);
+  }
+  canvas.width  = LG;
+  canvas.height = HT;
+  canvasConfettis.width  = window.innerWidth;
+  canvasConfettis.height = window.innerHeight;
+  construireChemin();
+}
+
+function construireChemin() {
+  pointsChemin = POURCENTAGES_CHEMIN.map(([px, py]) => ({ x: px * LG, y: py * HT }));
+}
+
+window.addEventListener('resize', () => { redimensionner(); if (jeuActif) dessinerImage(); });
+
+/* ═══════════════════════════════════════════
+   CAPTEUR D'INCLINAISON
+═══════════════════════════════════════════ */
+window.addEventListener('deviceorientation', (e) => {
+  inclinaison.gamma = e.gamma || 0;
+  inclinaison.beta  = e.beta  || 0;
+});
+
+// Simulation bureau : souris sur le canvas
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  inclinaison.gamma = (e.clientX - (rect.left + rect.width  / 2)) / rect.width  * 60;
+  inclinaison.beta  = (e.clientY - (rect.top  + rect.height / 2)) / rect.height * 60;
+});
+
+/* ═══════════════════════════════════════════
+   SÉLECTION DE NIVEAU
+═══════════════════════════════════════════ */
+async function choisirNiveau() {
+  if (typeof DeviceOrientationEvent !== 'undefined' &&
+      typeof DeviceOrientationEvent.requestPermission === 'function') {
+    try {
+      const perm = await DeviceOrientationEvent.requestPermission();
+      if (perm !== 'granted') {
+        afficherNotification('Permission capteurs refusée', 'erreur');
+        return;
+      }
+    } catch (err) {}
+  }
+  document.getElementById('selectionNiveau').classList.add('masque');
+  demarrerDecompte();
+}
+
+function allerSelection() {
+  masquer('superpositionVictoire'); masquer('superpositionDefaite');
+  jeuActif = false;
+  clearInterval(intervalleMinuterie);
+  document.getElementById('selectionNiveau').classList.remove('masque');
+}
+
+function rejouer() {
+  masquer('superpositionVictoire'); masquer('superpositionDefaite');
+  demarrerDecompte();
+}
+
+/* ═══════════════════════════════════════════
+   DÉCOMPTE
+═══════════════════════════════════════════ */
+function demarrerDecompte() {
+  redimensionner();
+  dessinerImage();
+  const decompte = document.getElementById('decompte');
+  const numero   = document.getElementById('numeroDecompte');
+  let n = 3;
+  numero.textContent = n;
+  decompte.classList.add('visible');
+  const iv = setInterval(() => {
+    n--;
+    if (n === 0) {
+      numero.textContent = 'GO !';
+    } else if (n < 0) {
+      clearInterval(iv);
+      decompte.classList.remove('visible');
+      initialiserJeu();
+    } else {
+      numero.textContent = n;
+      numero.style.animation = 'none';
+      void numero.offsetWidth;
+      numero.style.animation = '';
+    }
+  }, 800);
+}
+
+/* ═══════════════════════════════════════════
+   INITIALISATION
+═══════════════════════════════════════════ */
+function genererTrous() {
+  trous = [];
+  // Segments éligibles : on évite le 1er et le dernier
+  const eligibles = [];
+  for (let i = 3; i < pointsChemin.length - 3; i++) {
+    eligibles.push(i);
+  }
+  // Mélanger et prendre nbTrous segments
+  for (let i = eligibles.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [eligibles[i], eligibles[j]] = [eligibles[j], eligibles[i]];
+  }
+  const choisis = eligibles.slice(0, CFG.nbTrous);
+  for (const seg of choisis) {
+    const a = pointsChemin[seg], b = pointsChemin[seg + 1];
+    // Position aléatoire entre 25% et 75% du segment
+    const t = 0.25 + Math.random() * 0.5;
+    trous.push({ x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, seg });
+  }
+}
+
+function reinitialiserBalle() {
+  balle       = { x: pointsChemin[0].x, y: pointsChemin[0].y, vx: 0, vy: 0 };
+  pointsTrace = [];
+  progression = 0;
+}
+
+function initialiserJeu() {
+  secondesRestantes = CFG.totalSec;
+  penaliteEnCours   = false;
+  jeuActif          = true;
+  inclinaison       = { gamma: 0, beta: 0 };
+  reinitialiserBalle();
+  genererTrous();
+  mettreAJourMinuterie();
+  clearInterval(intervalleMinuterie);
+  intervalleMinuterie = setInterval(tick, 1000);
+  elementInstruction.textContent = 'Inclinez le téléphone pour guider la balle !';
+  requestAnimationFrame(boucle);
+}
+
+/* ═══════════════════════════════════════════
+   MINUTERIE
+═══════════════════════════════════════════ */
+function tick() {
+  if (!jeuActif) return;
+  secondesRestantes--;
+  mettreAJourMinuterie();
+  if (secondesRestantes <= 0) declencherDefaite('Le temps est écoulé !');
+}
+function mettreAJourMinuterie() {
+  const m = Math.floor(secondesRestantes / 60), s = secondesRestantes % 60;
+  elementTemps.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+  elementTemps.classList.toggle('danger', secondesRestantes < 20);
+}
+
+/* ═══════════════════════════════════════════
+   PHYSIQUE DE LA BALLE
+═══════════════════════════════════════════ */
+function mettreAJourBalle() {
+  if (!jeuActif) return;
+
+  // Accélération due à l'inclinaison
+  balle.vx += inclinaison.gamma * CFG.gravite;
+  balle.vy += inclinaison.beta  * CFG.gravite;
+
+  // Amortissement
+  balle.vx *= CFG.amortissement;
+  balle.vy *= CFG.amortissement;
+
+  // Limite de vitesse
+  const vitesse = Math.hypot(balle.vx, balle.vy);
+  if (vitesse > CFG.vitesseMax) {
+    balle.vx = balle.vx / vitesse * CFG.vitesseMax;
+    balle.vy = balle.vy / vitesse * CFG.vitesseMax;
+  }
+
+  // Déplacement
+  balle.x += balle.vx;
+  balle.y += balle.vy;
+
+  // ── Collision : on contraint la balle dans le segment courant ──
+  const limite = CFG.corridor - CFG.rayonBalle;
+  const cp     = plusProchePointSegment(balle, pointsChemin[progression], pointsChemin[progression + 1]);
+  const dx     = balle.x - cp.x;
+  const dy     = balle.y - cp.y;
+  const dist   = Math.hypot(dx, dy);
+
+  if (dist > limite && dist > 0) {
+    const nx = dx / dist;
+    const ny = dy / dist;
+    balle.x = cp.x + nx * limite;
+    balle.y = cp.y + ny * limite;
+    const vDotN = balle.vx * nx + balle.vy * ny;
+    if (vDotN > 0) {
+      balle.vx -= vDotN * nx;
+      balle.vy -= vDotN * ny;
+    }
+  }
+
+  // ── Progression : avance uniquement quand la balle ──────────
+  // atteint physiquement le prochain point de jonction
+  const segSuivant = progression + 1;
+  if (segSuivant < pointsChemin.length - 1) {
+    const jonction = pointsChemin[segSuivant];
+    if (Math.hypot(balle.x - jonction.x, balle.y - jonction.y) < CFG.corridor * 0.8) {
+      progression = segSuivant;
+    }
+  }
+  // ────────────────────────────────────────────────────────────
+
+  // ── Détection des trous ─────────────────────────────────
+  for (const trou of trous) {
+    if (Math.hypot(balle.x - trou.x, balle.y - trou.y) < CFG.rayonTrou) {
+      declencherDefaite('La balle est tombée dans un trou !');
+      return;
+    }
+  }
+  // ────────────────────────────────────────────────────────
+
+  // Traînée
+  pointsTrace.push({ x: balle.x, y: balle.y });
+  if (pointsTrace.length > CFG.trailMax) pointsTrace.shift();
+
+  // Condition de victoire
+  const pointFin = pointsChemin[pointsChemin.length - 1];
+  if (progression >= pointsChemin.length - 2 &&
+      Math.hypot(balle.x - pointFin.x, balle.y - pointFin.y) < CFG.corridor * 0.6) {
+    declencherVictoire();
+  }
+}
+
+/* ═══════════════════════════════════════════
+   TROU
+═══════════════════════════════════════════ */
+function appliquerPenaliteTrou() {
+  secouerCanvas();
+  if (navigator.vibrate) navigator.vibrate([80, 30, 80]);
+  declencherDefaite('La balle est tombée dans un trou !');
+}
+
+/* ═══════════════════════════════════════════
+   GÉOMÉTRIE
+═══════════════════════════════════════════ */
+function plusProchePointChemin(pt) {
+  let meilleureDistance = Infinity, meilleurPoint = pointsChemin[0], meilleurSegment = 0;
+  for (let i = 0; i < pointsChemin.length - 1; i++) {
+    const cp = plusProchePointSegment(pt, pointsChemin[i], pointsChemin[i + 1]);
+    const d  = Math.hypot(pt.x - cp.x, pt.y - cp.y);
+    if (d < meilleureDistance) { meilleureDistance = d; meilleurPoint = cp; meilleurSegment = i; }
+  }
+  return { x: meilleurPoint.x, y: meilleurPoint.y, seg: meilleurSegment };
+}
+
+function plusProchePointSegment(p, a, b) {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const len2 = dx*dx + dy*dy;
+  if (len2 === 0) return { x: a.x, y: a.y };
+  let t = ((p.x - a.x)*dx + (p.y - a.y)*dy) / len2;
+  t = Math.max(0, Math.min(1, t));
+  return { x: a.x + t*dx, y: a.y + t*dy };
+}
+
+/* ═══════════════════════════════════════════
+   VICTOIRE / DÉFAITE
+═══════════════════════════════════════════ */
+function declencherDefaite(raison) {
+  jeuActif = false;
+  clearInterval(intervalleMinuterie);
+  document.getElementById('raisonDefaite').textContent = raison;
+  setTimeout(() => afficher('superpositionDefaite'), 600);
+}
+
+function declencherVictoire() {
+  jeuActif = false;
+  clearInterval(intervalleMinuterie);
+  lancerConfettis();
+  setTimeout(() => {
+    dessinerMotifVictoire();
+    afficher('superpositionVictoire');
+  }, 600);
+}
+
+function dessinerMotifVictoire() {
+  const cv = document.getElementById('canvasMotifVictoire');
+  const taille = Math.min(window.innerWidth * 0.55, 200);
+  cv.width  = taille;
+  cv.height = taille;
+  const c = cv.getContext('2d');
+
+  const marge = taille * 0.1;
+  const zone  = taille - marge * 2;
+  const pts = POURCENTAGES_CHEMIN.map(([px, py]) => ({
+    x: marge + px * zone,
+    y: marge + py * zone,
+  }));
+  const cor = taille * 0.055;
+
+  const gauche = [], droite = [];
+  for (let i = 0; i < pts.length - 1; i++) {
+    const a = pts[i], b = pts[i + 1];
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const len = Math.hypot(dx, dy) || 1;
+    const nx = -dy / len, ny = dx / len;
+    if (i === 0) {
+      gauche.push({ x: a.x + nx * cor, y: a.y + ny * cor });
+      droite.push({ x: a.x - nx * cor, y: a.y - ny * cor });
+    }
+    gauche.push({ x: b.x + nx * cor, y: b.y + ny * cor });
+    droite.push({ x: b.x - nx * cor, y: b.y - ny * cor });
+  }
+  c.beginPath();
+  c.moveTo(gauche[0].x, gauche[0].y);
+  gauche.forEach(p => c.lineTo(p.x, p.y));
+  for (let i = droite.length - 1; i >= 0; i--) c.lineTo(droite[i].x, droite[i].y);
+  c.closePath();
+  c.fillStyle = 'rgba(255, 240, 180, 0.10)';
+  c.fill();
+
+  c.save();
+  c.strokeStyle = 'rgba(240, 192, 96, 0.9)';
+  c.lineWidth = 1.5;
+  c.lineCap = 'square'; c.lineJoin = 'miter';
+  c.shadowColor = 'rgba(240,192,96,.5)'; c.shadowBlur = 6;
+  for (const signe of [1, -1]) {
+    c.beginPath();
+    for (let i = 0; i < pts.length - 1; i++) {
+      const a = pts[i], b = pts[i + 1];
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = -dy / len * cor * signe, ny = dx / len * cor * signe;
+      if (i === 0) c.moveTo(a.x + nx, a.y + ny);
+      else         c.lineTo(a.x + nx, a.y + ny);
+      c.lineTo(b.x + nx, b.y + ny);
+    }
+    c.stroke();
+  }
+  c.restore();
+
+  c.save();
+  c.lineCap = 'round'; c.lineJoin = 'round';
+  c.lineWidth = 2;
+  c.strokeStyle = 'rgba(46, 204, 113, 0.9)';
+  c.shadowColor = '#2ecc71'; c.shadowBlur = 6;
+  c.beginPath();
+  pts.forEach((p, i) => i === 0 ? c.moveTo(p.x, p.y) : c.lineTo(p.x, p.y));
+  c.stroke();
+  c.restore();
+
+  c.font = `bold ${Math.round(taille * 0.08)}px sans-serif`;
+  c.textAlign = 'center'; c.textBaseline = 'middle';
+  c.fillStyle = '#2ecc71'; c.shadowColor = 'rgba(0,0,0,.6)'; c.shadowBlur = 4;
+  c.fillText('▶', pts[0].x, pts[0].y);
+  c.fillStyle = '#f0c060';
+  c.fillText('★', pts[pts.length - 1].x, pts[pts.length - 1].y);
+}
+
+/* ═══════════════════════════════════════════
+   BOUCLE DE RENDU
+═══════════════════════════════════════════ */
+function boucle() {
+  mettreAJourBalle();
+  dessinerImage();
+  if (jeuActif) requestAnimationFrame(boucle);
+}
+
+function dessinerImage() {
+  ctx.clearRect(0, 0, LG, HT);
+
+  if (imgFond.complete && imgFond.naturalWidth > 0) {
+    ctx.drawImage(imgFond, 0, 0, LG, HT);
+  } else {
+    ctx.fillStyle = '#2c2010';
+    ctx.fillRect(0, 0, LG, HT);
+  }
+
+  ctx.fillStyle = 'rgba(0,0,0,0.50)';
+  ctx.fillRect(0, 0, LG, HT);
+
+  dessinerMotif();
+  dessinerBalle();
+}
+
+/* ═══════════════════════════════════════════
+   DESSIN DU MOTIF
+═══════════════════════════════════════════ */
+function dessinerMotif() {
+  if (pointsChemin.length < 2) return;
+  const cor = CFG.corridor;
+
+  ctx.save();
+  ctx.beginPath();
+  construireFormeCouloir(cor);
+  ctx.fillStyle = 'rgba(255, 240, 180, 0.12)';
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  ctx.strokeStyle = 'rgba(240, 192, 96, 0.95)';
+  ctx.lineWidth   = 3;
+  ctx.lineCap     = 'square';
+  ctx.lineJoin    = 'miter';
+  ctx.shadowColor = 'rgba(240, 192, 96, 0.55)';
+  ctx.shadowBlur  = 8;
+  tracerCheminDecale(cor);
+  tracerCheminDecale(-cor);
+  ctx.restore();
+
+  ctx.save();
+  ctx.strokeStyle = 'rgba(240, 192, 96, 0.95)';
+  ctx.lineWidth   = 3;
+  ctx.lineCap     = 'round';
+  dessinerExtrémité(pointsChemin[0], pointsChemin[1], cor);
+  dessinerExtrémité(pointsChemin[pointsChemin.length - 1], pointsChemin[pointsChemin.length - 2], cor);
+  ctx.restore();
+
+  dessinerMarqueur(pointsChemin[0],                       '▶', '#2ecc71');
+  dessinerMarqueur(pointsChemin[pointsChemin.length - 1], '★', '#f0c060');
+
+  // Trous
+  for (const trou of trous) {
+    ctx.save();
+    // Halo rouge d'avertissement
+    const halo = ctx.createRadialGradient(trou.x, trou.y, 0, trou.x, trou.y, CFG.rayonTrou * 2);
+    halo.addColorStop(0,   'rgba(180, 0, 0, 0.5)');
+    halo.addColorStop(1,   'rgba(180, 0, 0, 0)');
+    ctx.beginPath();
+    ctx.arc(trou.x, trou.y, CFG.rayonTrou * 2, 0, Math.PI * 2);
+    ctx.fillStyle = halo;
+    ctx.fill();
+    // Trou noir
+    const gradient = ctx.createRadialGradient(trou.x, trou.y, 0, trou.x, trou.y, CFG.rayonTrou);
+    gradient.addColorStop(0,   '#000000');
+    gradient.addColorStop(0.7, '#1a0505');
+    gradient.addColorStop(1,   'rgba(60,0,0,0.8)');
+    ctx.beginPath();
+    ctx.arc(trou.x, trou.y, CFG.rayonTrou, 0, Math.PI * 2);
+    ctx.fillStyle = gradient;
+    ctx.shadowColor = 'rgba(0,0,0,0.9)';
+    ctx.shadowBlur  = 10;
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function construireFormeCouloir(cor) {
+  const n = pointsChemin.length;
+  const gauche = [], droite = [];
+  for (let i = 0; i < n; i++) {
+    gauche.push(calculerPointDecale(pointsChemin, i,  cor));
+    droite.push(calculerPointDecale(pointsChemin, i, -cor));
+  }
+  ctx.moveTo(gauche[0].x, gauche[0].y);
+  gauche.forEach(p => ctx.lineTo(p.x, p.y));
+  for (let i = droite.length - 1; i >= 0; i--) ctx.lineTo(droite[i].x, droite[i].y);
+  ctx.closePath();
+}
+
+function calculerPointDecale(pts, i, decalage) {
+  const n = pts.length;
+  if (i === 0) {
+    const dx = pts[1].x - pts[0].x, dy = pts[1].y - pts[0].y;
+    const len = Math.hypot(dx, dy) || 1;
+    return { x: pts[0].x + (-dy/len)*decalage, y: pts[0].y + (dx/len)*decalage };
+  }
+  if (i === n - 1) {
+    const dx = pts[n-1].x - pts[n-2].x, dy = pts[n-1].y - pts[n-2].y;
+    const len = Math.hypot(dx, dy) || 1;
+    return { x: pts[n-1].x + (-dy/len)*decalage, y: pts[n-1].y + (dx/len)*decalage };
+  }
+  // Point intérieur : intersection des deux lignes décalées (miter join)
+  const dx1 = pts[i].x - pts[i-1].x, dy1 = pts[i].y - pts[i-1].y;
+  const len1 = Math.hypot(dx1, dy1) || 1;
+  const nx1 = -dy1/len1, ny1 = dx1/len1;
+
+  const dx2 = pts[i+1].x - pts[i].x, dy2 = pts[i+1].y - pts[i].y;
+  const len2 = Math.hypot(dx2, dy2) || 1;
+  const nx2 = -dy2/len2, ny2 = dx2/len2;
+
+  const mx = nx1 + nx2, my = ny1 + ny2;
+  const mlen = Math.hypot(mx, my) || 1;
+  const mnx = mx/mlen, mny = my/mlen;
+  const sinH = mnx*nx1 + mny*ny1 || 1;
+  const d = Math.min(Math.abs(decalage/sinH), Math.abs(decalage)*4) * Math.sign(decalage);
+  return { x: pts[i].x + mnx*d, y: pts[i].y + mny*d };
+}
+
+function tracerCheminDecale(decalage) {
+  ctx.beginPath();
+  for (let i = 0; i < pointsChemin.length; i++) {
+    const p = calculerPointDecale(pointsChemin, i, decalage);
+    i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+  }
+  ctx.stroke();
+}
+
+function dessinerExtrémité(pt, suivant, cor) {
+  const dx = suivant.x - pt.x, dy = suivant.y - pt.y;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy / len * cor, ny = dx / len * cor;
+  ctx.beginPath();
+  ctx.moveTo(pt.x + nx, pt.y + ny);
+  ctx.lineTo(pt.x - nx, pt.y - ny);
+  ctx.stroke();
+}
+
+function dessinerMarqueur(pt, symbole, couleur) {
+  ctx.save();
+  ctx.font = 'bold 22px sans-serif';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle   = couleur;
+  ctx.shadowColor = 'rgba(0,0,0,0.8)'; ctx.shadowBlur = 6;
+  ctx.fillText(symbole, pt.x, pt.y);
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════
+   DESSIN DE LA BALLE
+═══════════════════════════════════════════ */
+function dessinerBalle() {
+  // Traînée
+  if (pointsTrace.length > 1) {
+    ctx.save();
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (let i = 1; i < pointsTrace.length; i++) {
+      const t = i / pointsTrace.length;
+      ctx.globalAlpha = t * 0.5;
+      ctx.strokeStyle = '#2ecc71';
+      ctx.lineWidth   = CFG.rayonBalle * 1.5 * t;
+      ctx.shadowColor = '#2ecc71';
+      ctx.shadowBlur  = 4;
+      ctx.beginPath();
+      ctx.moveTo(pointsTrace[i - 1].x, pointsTrace[i - 1].y);
+      ctx.lineTo(pointsTrace[i].x,     pointsTrace[i].y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // Balle
+  ctx.save();
+  const r = CFG.rayonBalle;
+  ctx.beginPath();
+  ctx.arc(balle.x, balle.y, r + 4, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255,255,255,0.10)';
+  ctx.fill();
+
+  const gradient = ctx.createRadialGradient(balle.x - 2, balle.y - 2, 1, balle.x, balle.y, r);
+  gradient.addColorStop(0,   '#ffffff');
+  gradient.addColorStop(0.4, '#c8e6c9');
+  gradient.addColorStop(1,   '#4caf50');
+  ctx.beginPath();
+  ctx.arc(balle.x, balle.y, r, 0, Math.PI * 2);
+  ctx.fillStyle   = gradient;
+  ctx.shadowColor = 'rgba(76,175,80,0.9)';
+  ctx.shadowBlur  = 16;
+  ctx.fill();
+  ctx.restore();
+}
+
+/* ═══════════════════════════════════════════
+   NOTIFICATION
+═══════════════════════════════════════════ */
+let minuterieNotification = null;
+function afficherNotification(message, type) {
+  const el = document.getElementById('notification');
+  el.textContent = message; el.className = 'visible ' + type;
+  if (minuterieNotification) clearTimeout(minuterieNotification);
+  minuterieNotification = setTimeout(() => el.classList.remove('visible'), 1800);
+}
+
+/* ═══════════════════════════════════════════
+   CONFETTIS
+═══════════════════════════════════════════ */
+function lancerConfettis() {
+  canvasConfettis.width = window.innerWidth; canvasConfettis.height = window.innerHeight;
+  for (let i = 0; i < 120; i++) partiesConfettis.push({
+    x: Math.random() * canvasConfettis.width, y: -20 - Math.random() * 200,
+    r: 3 + Math.random() * 5,
+    couleur: ['#c9973a','#f0c060','#2ecc71','#3498db','#e74c3c','#ecf0f1'][~~(Math.random() * 6)],
+    vx: (Math.random() - .5) * 4, vy: 2 + Math.random() * 4,
+    rot: Math.random() * 360, rotV: (Math.random() - .5) * 6, alpha: 1,
+  });
+  animerConfettis();
+}
+function animerConfettis() {
+  ctxConfettis.clearRect(0, 0, canvasConfettis.width, canvasConfettis.height);
+  partiesConfettis = partiesConfettis.filter(p => p.alpha > 0);
+  partiesConfettis.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.rot += p.rotV;
+    if (p.y > canvasConfettis.height * .8) p.alpha -= .02;
+    ctxConfettis.save(); ctxConfettis.globalAlpha = p.alpha; ctxConfettis.fillStyle = p.couleur;
+    ctxConfettis.translate(p.x, p.y); ctxConfettis.rotate(p.rot * Math.PI / 180);
+    ctxConfettis.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); ctxConfettis.restore();
+  });
+  if (partiesConfettis.length) requestAnimationFrame(animerConfettis);
+}
+
+/* ═══════════════════════════════════════════
+   UTILITAIRES
+═══════════════════════════════════════════ */
+function afficher(id) {
+  const el = document.getElementById(id);
+  el.style.display = '';   // efface tout éventuel style inline display:none
+  el.classList.add('visible');
+}
+function masquer(id) {
+  document.getElementById(id).classList.remove('visible');
+}
+
+/* ═══════════════════════════════════════════
+   DÉMARRAGE
+═══════════════════════════════════════════ */
+redimensionner();
+imgFond.onload = () => dessinerImage();
