@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/styles.css">
+
+    <title>Jeux Partie | 1</title>
+</head>
+
+<body data-continue-url="prochaine-page.html">
+    <div class="intro" aria-hidden="false">
+        <h1 class="titre">Choisir la couleur</h1>
+        <p class="text anime">Henrillette vous a demander de choisir la couleur du tissus, mélanger les produit chimoque sans en metter partout pour créer votre nouvelle couleur !</p>
+        <button class="start" aria-expanded="false">Lancer le jeux</button>
+    </div>
+
+    <div class="rules-modal" aria-hidden="true">
+        <div class="rules-card">
+            <h2>Regles du jeu</h2>
+            <ul>
+                <li>Choisis un verre de couleur et verse dans le verre cible.</li>
+                <li>Ne renverse pas a cote, sinon tu perds des points.</li>
+                <li>Le chrono dure 10 secondes des que la partie commence.</li>
+            </ul>
+            <button class="start-confirm">Commencer</button>
+        </div>
+    </div>
+
+        <canvas id="canvas" aria-hidden="true"></canvas>
+
+        <script src="js/script.js"></script>
+        <script src="js/game.js"></script>
+</body>
+
+</html>
