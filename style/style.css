@@ -87,14 +87,18 @@ body:not(.fond-accueil)::before {
 .enveloppeur-bouton { position: relative; display: inline-block; }
 
 .bouton-commencer {
-    font-family: 'Cinzel', serif; font-size: clamp(.9rem, 3.2vw, 1.05rem);
+    font-family: 'Cinzel', serif; font-size: clamp(.78rem, 2.8vw, .92rem);
     font-weight: 700; letter-spacing: .3em; text-transform: uppercase;
     color: #1a1208;
     background: linear-gradient(135deg, #f0c060, #c9973a, #f0c060);
     background-size: 200% 100%;
     border: none;
     border-radius: 50px;
-    padding: 16px 52px;
+    padding: 14px 32px;
+    line-height: 1.6;
+    max-width: 180px;
+    white-space: normal;
+    text-align: center;
     cursor: pointer;
     position: relative; overflow: hidden;
     box-shadow:
