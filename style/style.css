@@ -357,6 +357,8 @@ body:not(.fond-accueil)::before {
     letter-spacing: .06em;
 }
 
+.bouton-son--droite { left: auto; right: 16px; }
+
 /* Bouton retour (page jeux) */
 .bouton-retour-page {
     position: fixed; top: 16px; left: 16px; z-index: 200;
