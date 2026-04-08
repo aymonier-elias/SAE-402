@@ -138,29 +138,100 @@ body:not(.fond-accueil)::before {
 }
 .bouton-commencer:active { transform: translateY(1px) scale(1); }
 
+@keyframes lueurDouce {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(201,151,58,.1), 0 0 14px rgba(201,151,58,.25), inset 0 1px 0 rgba(255,240,180,.15); }
+    50%       { box-shadow: 0 0 0 3px rgba(201,151,58,.2), 0 0 22px rgba(201,151,58,.45), inset 0 1px 0 rgba(255,240,180,.2); }
+}
+
+/* ══════════════════════════════
+   BOUTON SON
+══════════════════════════════ */
+
+.bouton-son {
+    position: fixed; top: 16px; left: 16px; z-index: 200;
+    width: 42px; height: 42px;
+    background: linear-gradient(145deg, rgba(30,16,4,.65), rgba(10,5,1,.75));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(240, 210, 150, 0.45);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow:
+        0 0 0 3px rgba(201,151,58,.1),
+        0 0 14px rgba(201,151,58,.25),
+        inset 0 1px 0 rgba(255,240,180,.15);
+    transition: box-shadow .3s ease, border-color .3s ease, background .3s ease;
+    animation: lueurDouce 3.5s ease-in-out infinite;
+}
+.bouton-son:hover {
+    border-color: rgba(240, 192, 96, 0.75);
+    box-shadow:
+        0 0 0 3px rgba(201,151,58,.2),
+        0 0 22px rgba(201,151,58,.5),
+        inset 0 1px 0 rgba(255,240,180,.2);
+    animation: none;
+}
+
+.icone-son {
+    width: 20px; height: 20px;
+    color: var(--or-vif);
+    transition: opacity .2s;
+}
+
+/* Ondes animées quand le son joue */
+.onde {
+    transform-origin: left center;
+    transition: opacity .3s ease;
+}
+.bouton-son.muet .onde-1,
+.bouton-son.muet .onde-2 { opacity: 0; }
+.bouton-son.muet .croix { display: block; }
+.croix { display: none; }
+
+@keyframes pulseOnde {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: .35; }
+}
+.bouton-son:not(.muet) .onde-1 { animation: pulseOnde 2s ease-in-out infinite; }
+.bouton-son:not(.muet) .onde-2 { animation: pulseOnde 2s ease-in-out .5s infinite; }
+
 /* ══════════════════════════════
    BOUTON MENU
 ══════════════════════════════ */
 
 .bouton-menu {
     position: fixed; top: 16px; right: 16px; z-index: 200;
-    width: 46px; height: 46px;
-    background: rgba(8, 5, 2, 0.55);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(240, 210, 150, 0.28);
-    border-radius: 12px;
+    width: 42px; height: 42px;
+    background: linear-gradient(145deg, rgba(30,16,4,.65), rgba(10,5,1,.75));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(240, 210, 150, 0.45);
+    border-radius: 50%;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: background .25s, border-color .25s;
+    box-shadow:
+        0 0 0 3px rgba(201,151,58,.1),
+        0 0 14px rgba(201,151,58,.25),
+        inset 0 1px 0 rgba(255,240,180,.15);
+    transition: box-shadow .3s ease, border-color .3s ease, background .3s ease;
+    animation: lueurDouce 3.5s ease-in-out infinite;
 }
 .bouton-menu:hover {
-    background: rgba(20, 12, 4, 0.75);
-    border-color: rgba(240, 210, 150, 0.55);
+    border-color: rgba(240, 192, 96, 0.75);
+    box-shadow:
+        0 0 0 3px rgba(201,151,58,.2),
+        0 0 22px rgba(201,151,58,.5),
+        inset 0 1px 0 rgba(255,240,180,.2);
+    animation: none;
 }
 .bouton-menu.ouvert {
-    background: rgba(20, 12, 4, 0.85);
-    border-color: rgba(240, 192, 96, 0.65);
+    border-color: rgba(240, 192, 96, 0.8);
+    box-shadow:
+        0 0 0 3px rgba(201,151,58,.25),
+        0 0 26px rgba(201,151,58,.6),
+        inset 0 1px 0 rgba(255,240,180,.2);
+    animation: none;
 }
 
 .icone-menu {
