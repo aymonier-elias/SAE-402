@@ -683,4 +683,41 @@ function masquer(id) {
    DÉMARRAGE
 ═══════════════════════════════════════════ */
 redimensionner();
+
+/* ═══════════════════════════════════════════
+   AUDIO DE FOND
+═══════════════════════════════════════════ */
+(function() {
+  const audio = document.getElementById('audioFond');
+  const boutonSon = document.getElementById('boutonSon');
+  if (!audio || !boutonSon) return;
+
+  audio.volume = 0.35;
+  let musicStarted = false;
+
+  audio.play().then(() => { musicStarted = true; }).catch(() => {});
+
+  document.addEventListener('click', function démarrerAuPremierClic(e) {
+    if (boutonSon.contains(e.target)) return;
+    if (!musicStarted) { audio.play().catch(() => {}); musicStarted = true; }
+    document.removeEventListener('click', démarrerAuPremierClic);
+  }, true);
+
+  boutonSon.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (!musicStarted) {
+      audio.play().catch(() => {});
+      musicStarted = true;
+      boutonSon.classList.remove('muet');
+      return;
+    }
+    if (audio.muted) {
+      audio.muted = false;
+      boutonSon.classList.remove('muet');
+    } else {
+      audio.muted = true;
+      boutonSon.classList.add('muet');
+    }
+  });
+})();
 imgFond.onload = () => dessinerImage();
