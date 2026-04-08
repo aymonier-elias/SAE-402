@@ -1,25 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-
-    <title>Document</title>
+    <title>L'Histoire</title>
 </head>
-
 <body>
-    <h1>Je suis la page d'accueil</h1>
 
-    <ul>
-        <li><a href="jeu_1/index.html">Jeux 1</a></li>
-        <li><a href="jeu_2/index.html">Jeux 2</a></li>
-        <li><a href="">jeux 3</a></li>
-        <li><a href="">Jeux 4</a></li>
-    </ul>
+    <!-- Bouton menu -->
+    <button class="bouton-menu" id="boutonMenu" aria-label="Menu">
+        <span class="icone-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </span>
+    </button>
+
+    <!-- Menu déroulant -->
+    <nav class="menu-deroulant" id="menuDeroulant">
+        <a href="jeux.html" class="bouton-menu-item">Jeux</a>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main class="accueil">
+        <div class="titre-principal">
+            <h1>L'Histoire</h1>
+            <small>Prologue</small>
+        </div>
+        <div class="separateur">✦</div>
+        <div class="enveloppeur-bouton">
+            <button class="bouton-commencer">Commencer l'histoire</button>
+        </div>
+    </main>
+
     <script src="js/script.js"></script>
 </body>
-
 </html>

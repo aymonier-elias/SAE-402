@@ -1,0 +1,299 @@
+:root {
+    --fond:      #1a1208;
+    --or:        #c9973a;
+    --or-vif:    #f0c060;
+    --ivoire:    #f5e8c8;
+    --ivoire-f:  #a89060;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    width: 100%;
+    min-height: 100dvh;
+    overflow: hidden;
+    font-family: 'Crimson Text', serif;
+    user-select: none;
+    touch-action: manipulation;
+    background-color: var(--fond);
+    background-image:
+        linear-gradient(160deg, rgba(40,20,5,.9) 0%, rgba(12,6,2,.97) 100%),
+        radial-gradient(ellipse at 25% 15%, rgba(201,151,58,.18), transparent 55%),
+        radial-gradient(ellipse at 75% 85%, rgba(80,40,10,.12), transparent 55%);
+}
+
+/* Étoiles en arrière-plan */
+body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+        radial-gradient(circle, rgba(240,192,96,.65) 1px, transparent 1px),
+        radial-gradient(circle, rgba(240,192,96,.3) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,.2) 1px, transparent 1px);
+    background-size: 220px 220px, 140px 140px, 90px 90px;
+    background-position: 0 0, 70px 60px, 35px 100px;
+    opacity: .22;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ══════════════════════════════
+   PAGE D'ACCUEIL
+══════════════════════════════ */
+
+.accueil {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 28px;
+    z-index: 1;
+    padding: 0 24px;
+}
+
+.titre-principal {
+    font-family: 'Cinzel', serif; font-weight: 900;
+    font-size: clamp(1.8rem, 7vw, 2.8rem);
+    color: #fff;
+    text-shadow: 0 2px 14px rgba(0,0,0,.9), 0 0 40px rgba(240,192,96,.25);
+    text-align: center; letter-spacing: .15em;
+}
+.titre-principal small {
+    display: block; font-family: 'Crimson Text', serif;
+    font-size: clamp(.75rem, 3vw, .95rem); font-style: italic;
+    color: #fff; margin-top: 6px; font-weight: 400;
+    letter-spacing: .14em;
+    text-shadow: 0 1px 8px rgba(0,0,0,.8);
+    opacity: .75;
+}
+
+.separateur {
+    display: flex; align-items: center; gap: 12px;
+    color: rgba(201, 151, 58, 0.7); font-size: .7rem;
+}
+.separateur::before,
+.separateur::after {
+    content: '';
+    display: block; width: clamp(50px, 12vw, 100px); height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201, 151, 58, 0.6), transparent);
+}
+
+/* ── Bouton commencer ── */
+.enveloppeur-bouton { position: relative; display: inline-block; }
+
+.bouton-commencer {
+    font-family: 'Cinzel', serif; font-size: clamp(.9rem, 3.2vw, 1.05rem);
+    font-weight: 700; letter-spacing: .3em; text-transform: uppercase;
+    color: #1a1208;
+    background: linear-gradient(135deg, #f0c060, #c9973a, #f0c060);
+    background-size: 200% 100%;
+    border: none;
+    border-radius: 50px;
+    padding: 16px 52px;
+    cursor: pointer;
+    position: relative; overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba(240,192,96,.3),
+        0 0 24px rgba(201,151,58,.5),
+        0 8px 32px rgba(0,0,0,.5);
+    transition: transform .3s ease, box-shadow .3s ease, background-position .4s ease;
+    animation: pulsationBouton 3s ease-in-out infinite;
+}
+
+@keyframes pulsationBouton {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(240,192,96,.3), 0 0 24px rgba(201,151,58,.5), 0 8px 32px rgba(0,0,0,.5); }
+    50%       { box-shadow: 0 0 0 1px rgba(240,192,96,.5), 0 0 40px rgba(201,151,58,.75), 0 8px 32px rgba(0,0,0,.5); }
+}
+
+.bouton-commencer::after {
+    content: '';
+    position: absolute; top: 0; left: -80%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,.35), transparent);
+    transform: skewX(-18deg);
+    animation: refletBouton 3s ease-in-out infinite;
+}
+@keyframes refletBouton {
+    0%        { left: -80%; }
+    40%, 100% { left: 140%; }
+}
+
+.bouton-commencer:hover {
+    transform: translateY(-3px) scale(1.04);
+    background-position: 100% 0;
+    box-shadow:
+        0 0 0 2px rgba(240,192,96,.6),
+        0 0 50px rgba(201,151,58,.8),
+        0 12px 36px rgba(0,0,0,.55);
+    animation: none;
+}
+.bouton-commencer:active { transform: translateY(1px) scale(1); }
+
+/* ══════════════════════════════
+   BOUTON MENU
+══════════════════════════════ */
+
+.bouton-menu {
+    position: fixed; top: 16px; right: 16px; z-index: 200;
+    width: 46px; height: 46px;
+    background: rgba(8, 5, 2, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(240, 210, 150, 0.28);
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .25s, border-color .25s;
+}
+.bouton-menu:hover {
+    background: rgba(20, 12, 4, 0.75);
+    border-color: rgba(240, 210, 150, 0.55);
+}
+.bouton-menu.ouvert {
+    background: rgba(20, 12, 4, 0.85);
+    border-color: rgba(240, 192, 96, 0.65);
+}
+
+.icone-menu {
+    display: flex; flex-direction: column; gap: 5px;
+    width: 20px;
+}
+.icone-menu span {
+    display: block; height: 2px; width: 100%;
+    background: var(--or-vif);
+    border-radius: 2px;
+    transition: transform .3s ease, opacity .3s ease;
+    transform-origin: center;
+}
+.bouton-menu.ouvert .icone-menu span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+.bouton-menu.ouvert .icone-menu span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+.bouton-menu.ouvert .icone-menu span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ══════════════════════════════
+   MENU DÉROULANT
+══════════════════════════════ */
+
+.menu-deroulant {
+    position: fixed; top: 72px; right: 16px; z-index: 199;
+    display: flex; flex-direction: column; gap: 8px;
+    opacity: 0; pointer-events: none;
+    transform: translateY(-8px) scale(.97);
+    transition: opacity .25s ease, transform .25s ease;
+}
+.menu-deroulant.ouvert {
+    opacity: 1; pointer-events: all;
+    transform: translateY(0) scale(1);
+}
+
+.bouton-menu-item {
+    font-family: 'Cinzel', serif; font-size: clamp(.78rem, 3vw, .9rem);
+    font-weight: 700; letter-spacing: .25em; text-transform: uppercase;
+    color: #1a1208; text-decoration: none;
+    background: linear-gradient(135deg, #f0c060, #c9973a, #f0c060);
+    background-size: 200% 100%;
+    border: none; border-radius: 30px;
+    padding: 11px 28px;
+    cursor: pointer;
+    box-shadow: 0 0 18px rgba(201,151,58,.55), 0 4px 18px rgba(0,0,0,.45);
+    transition: transform .2s ease, box-shadow .2s ease, background-position .3s ease;
+    display: block; text-align: center;
+    white-space: nowrap;
+}
+.bouton-menu-item:hover {
+    transform: translateY(-2px);
+    background-position: 100% 0;
+    box-shadow: 0 0 28px rgba(201,151,58,.75), 0 6px 22px rgba(0,0,0,.5);
+}
+.bouton-menu-item:active { transform: translateY(0); }
+
+/* ══════════════════════════════
+   PAGE JEUX
+══════════════════════════════ */
+
+.page-jeux {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 28px;
+    z-index: 1;
+    padding: 80px 24px 24px;
+    overflow-y: auto;
+}
+
+.liste-jeux {
+    display: flex; flex-direction: column; gap: 14px;
+    width: 100%; max-width: min(340px, 88vw);
+}
+
+.carte-jeu {
+    display: flex; align-items: center; gap: 18px;
+    font-family: 'Cinzel', serif;
+    text-decoration: none;
+    background: rgba(8, 5, 2, 0.35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(240, 210, 150, 0.22);
+    border-radius: 16px;
+    padding: 18px 24px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.04);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.carte-jeu:hover {
+    transform: translateY(-3px);
+    border-color: rgba(240, 192, 96, 0.5);
+    box-shadow: 0 0 24px rgba(201,151,58,.35), 0 8px 28px rgba(0,0,0,.5);
+}
+.carte-jeu:active { transform: translateY(0); }
+
+.carte-jeu-numero {
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    font-weight: 900; letter-spacing: .1em;
+    color: var(--or-vif);
+    text-shadow: 0 0 14px rgba(240,192,96,.5);
+    min-width: 28px; text-align: center;
+}
+.carte-jeu-titre {
+    font-size: clamp(.85rem, 3.2vw, 1rem);
+    font-weight: 700; letter-spacing: .12em;
+    color: var(--ivoire);
+    text-shadow: 0 1px 6px rgba(0,0,0,.7);
+}
+.carte-jeu.desactive {
+    opacity: .4;
+    pointer-events: none;
+}
+.carte-jeu-bientot {
+    margin-left: auto;
+    font-family: 'Crimson Text', serif; font-style: italic;
+    font-size: clamp(.72rem, 2.5vw, .82rem);
+    color: var(--ivoire-f);
+    letter-spacing: .06em;
+}
+
+/* Bouton retour (page jeux) */
+.bouton-retour-page {
+    position: fixed; top: 16px; left: 16px; z-index: 200;
+    font-family: 'Crimson Text', serif; font-style: italic;
+    font-size: clamp(.82rem, 3vw, .95rem);
+    color: var(--ivoire);
+    background: rgba(8, 5, 2, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(240, 210, 150, 0.28);
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer; letter-spacing: .06em;
+    text-decoration: none;
+    transition: background .2s, border-color .2s;
+    display: flex; align-items: center; gap: 6px;
+}
+.bouton-retour-page:hover {
+    background: rgba(20, 12, 4, 0.75);
+    border-color: rgba(240, 210, 150, 0.55);
+}
