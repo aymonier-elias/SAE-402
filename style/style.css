@@ -22,8 +22,14 @@ body {
         radial-gradient(ellipse at 75% 85%, rgba(80,40,10,.12), transparent 55%);
 }
 
-/* Étoiles en arrière-plan */
-body::before {
+body.fond-accueil {
+    background:
+        linear-gradient(rgba(0, 0, 0, 0.30), rgba(0, 0, 0, 0.30)),
+        url("../img/PageAccueil.png") center center / cover no-repeat fixed;
+}
+
+/* Étoiles en arrière-plan (pages sans image) */
+body:not(.fond-accueil)::before {
     content: '';
     position: fixed; inset: 0;
     background-image:
