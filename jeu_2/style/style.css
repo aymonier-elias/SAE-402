@@ -44,6 +44,7 @@
     color: var(--or-vif);
     text-shadow: 0 0 12px rgba(240,192,96,.4);
     min-width: 60px; text-align: right;
+    margin-left: auto;
   }
   .ent-temps.danger { color: var(--rouge); text-shadow: 0 0 12px rgba(231,76,60,.6); animation: pulsation .5s infinite alternate; }
   @keyframes pulsation { from { opacity: 1; } to { opacity: .5; } }

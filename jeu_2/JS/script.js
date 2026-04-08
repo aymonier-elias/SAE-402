@@ -3,7 +3,7 @@
 ═══════════════════════════════════════════ */
 const CFG = {
   corridor:      30,
-  totalSec:     120,
+  totalSec:      60,
   timePenalty:   15,
   gravite:      0.02,
   amortissement: 0.84,
