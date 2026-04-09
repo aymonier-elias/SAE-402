@@ -1,0 +1,25 @@
+{
+  "name": "Le tissu d'Henriette",
+  "short_name": "Henriette",
+  "description": "Escape game mobile geolocalise a Mulhouse.",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1208",
+  "theme_color": "#1a1208",
+  "icons": [
+    {
+      "src": "/img/PageAccueil.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/img/PageAccueil.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
