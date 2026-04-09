@@ -396,6 +396,20 @@ body:not(.fond-accueil)::before {
     animation: pageFadeIn .45s ease;
 }
 
+.messages-menu-link {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 250;
+    text-decoration: none;
+    color: var(--ivoire);
+    background: rgba(8, 5, 2, 0.7);
+    border: 1px solid rgba(240, 210, 150, 0.38);
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: .9rem;
+}
+
 .messages-phone {
     width: min(420px, 100%);
     height: min(92dvh, 760px);
@@ -503,6 +517,12 @@ body:not(.fond-accueil)::before {
     transition: transform .18s ease, box-shadow .18s ease;
     box-shadow: 0 8px 20px rgba(0,0,0,.35);
 }
+.messages-btn[disabled] {
+    opacity: .45;
+    filter: grayscale(.25);
+    cursor: not-allowed;
+    box-shadow: none;
+}
 
 .messages-btn:hover {
     transform: translateY(-1px) scale(1.01);
@@ -511,6 +531,71 @@ body:not(.fond-accueil)::before {
 
 .messages-btn:active {
     transform: translateY(1px) scale(0.995);
+}
+
+.messages-map-wrap {
+    margin: 10px;
+    border-radius: 12px;
+    border: 1px solid rgba(240, 210, 150, 0.35);
+    background: rgba(245, 232, 200, 0.08);
+    overflow: hidden;
+    animation: rappelIn .35s ease;
+}
+
+.messages-map-title {
+    color: var(--ivoire);
+    padding: 10px 12px 8px;
+    font-size: .95rem;
+}
+
+.messages-map {
+    height: 220px;
+    width: 100%;
+}
+
+.messages-map-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px 10px;
+}
+
+.messages-map-btn {
+    border: 1px solid rgba(240, 210, 150, 0.45);
+    border-radius: 999px;
+    background: rgba(245, 232, 200, 0.12);
+    color: var(--ivoire);
+    padding: 7px 12px;
+    font-family: 'Crimson Text', serif;
+}
+
+.messages-map-status {
+    color: var(--ivoire-f);
+    font-size: .85rem;
+}
+
+.user-heading-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #2b7cff;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 2px rgba(43, 124, 255, 0.3);
+    position: relative;
+    transform: rotate(var(--heading, 0deg));
+}
+
+.user-heading-icon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: -13px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 10px solid #2b7cff;
 }
 
 .messages-typing {

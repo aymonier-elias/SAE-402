@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages - Le tissu d'Henriette</title>
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    >
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body class="fond-accueil">
+    <a href="jeux.html" class="messages-menu-link">Tous les jeux</a>
     <main class="messages-page">
         <section class="messages-phone">
             <header class="messages-header">
@@ -22,10 +29,23 @@
 
             <div id="messages-list" class="messages-list hidden"></div>
             <div id="messages-choices" class="messages-choices hidden"></div>
-            <button id="btn-lancer-jeu" class="messages-btn hidden">Lancer le jeu</button>
+            <div id="messages-map-wrap" class="messages-map-wrap hidden">
+                <p id="messages-map-title" class="messages-map-title"></p>
+                <div class="messages-map-tools">
+                    <button id="btn-user-locate" class="messages-map-btn">Me localiser</button>
+                    <span id="messages-map-status" class="messages-map-status">Position inactive</span>
+                </div>
+                <div id="messages-map" class="messages-map"></div>
+            </div>
+            <button id="btn-lancer-jeu" class="messages-btn hidden" disabled>Lancer le jeu</button>
         </section>
     </main>
 
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
     <script src="js/messages.js"></script>
 </body>
 </html>
