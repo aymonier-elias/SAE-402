@@ -17,7 +17,7 @@ const URL_CONTINUER_HISTOIRE = document.body?.dataset?.continueUrl || "../messag
 // Cette section contient les constantes de gameplay.
 // Modifier ici permet d'equilibrer le jeu rapidement.
 const configuration = {
-  objectifScore: 2,
+  objectifScore: 20,
   physique: { gravite: 980, impulsionSaut: -340, vitesseChuteMax: 560 },
   monde: {
     vitesseDefilementBase: 185,
