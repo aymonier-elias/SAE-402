@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Henriette - Les Lumières de la Rue</title>
+    <link rel="stylesheet" href="Style/style.css">
+</head>
+
+<body>
+
+    <!-- Écran d'accueil -->
+    <div id="screen-start">
+        <h1>Labyrinthe</h1>
+        <p>Te voici devant la maison d'henriette, voici à quoi elle ressemblant à l'époque</p>
+        <img src="Img/maison_henriette.png" alt="labyrinthe" id="illus">
+        <div id="niveau-start">
+            <button id="start-facile">Facile</button>
+            <button id="start-moyen">Moyen</button>
+            <button id="start-difficile">Difficile</button>
+        </div>
+        <button id="btn-jouer">Jouer</button>
+    </div>
+
+    <!-- Interface de jeu -->
+    <div id="status">Génération en cours...</div>
+    <div id="chrono">00:00</div>
+    <button id="btn-home">Accueil</button>
+    <canvas id="maze"></canvas>
+
+    <!-- Contrôles directionnels (usage mobile) -->
+    <div id="controls">
+        <div id="btn-up">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 11l-5-5-5 5M17 18l-5-5-5 5" />
+            </svg>
+        </div>
+        <div>
+            <div id="btn-left">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 17l-5-5 5-5M18 17l-5-5 5-5" />
+                </svg>
+            </div>
+            <div id="btn-down">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 13l5 5 5-5M7 6l5 5 5-5" />
+                </svg>
+            </div>
+            <div id="btn-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M13 17l5-5-5-5M6 17l5-5-5-5" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sélecteur de difficulté en cours de partie -->
+    <div id="niveau">
+        <button id="btn-facile">Facile</button>
+        <button id="btn-moyen">Moyen</button>
+        <button id="btn-difficile">Difficile</button>
+    </div>
+
+    <!-- Écran de fin de partie -->
+    <div id="screen-end" class="hidden">
+        <h2>Bravo !</h2>
+        <p id="end-temps"></p>
+        <button id="btn-rejouer">Rejouer</button>
+    </div>
+
+    <script src="JavaScript/script.js"></script>
+</body>
+
+</html>

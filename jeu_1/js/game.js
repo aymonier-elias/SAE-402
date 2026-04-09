@@ -95,6 +95,63 @@ function getResponsiveFontSize(min, max, viewportFactor) {
   return Math.round(clamp(Math.min(W, H) * viewportFactor, min, max));
 }
 
+function drawRoundedRect(x, y, width, height, radius) {
+  const r = Math.min(radius, width / 2, height / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + width - r, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
+  ctx.lineTo(x + width, y + height - r);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
+  ctx.lineTo(x + r, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function drawCanvasButton({ x, y, width, height, label, variant = "gold" }) {
+  const centerX = x + width / 2;
+  const centerY = y + height / 2;
+  const radius = height / 2;
+
+  ctx.save();
+  ctx.shadowBlur = variant === "gold" ? 26 : 18;
+  ctx.shadowColor = variant === "gold" ? "rgba(201, 151, 58, 0.75)" : "rgba(245, 232, 200, 0.35)";
+  drawRoundedRect(x, y, width, height, radius);
+  const gradient = ctx.createLinearGradient(x, y, x + width, y + height);
+  if (variant === "gold") {
+    gradient.addColorStop(0, "#f0c060");
+    gradient.addColorStop(0.5, "#c9973a");
+    gradient.addColorStop(1, "#f0c060");
+  } else {
+    gradient.addColorStop(0, "rgba(245, 232, 200, 0.2)");
+    gradient.addColorStop(1, "rgba(245, 232, 200, 0.08)");
+  }
+  ctx.fillStyle = gradient;
+  ctx.fill();
+  ctx.restore();
+
+  ctx.lineWidth = variant === "gold" ? 2 : 1.5;
+  ctx.strokeStyle = variant === "gold" ? "rgba(240, 192, 96, 0.65)" : "rgba(245, 232, 200, 0.45)";
+  drawRoundedRect(x, y, width, height, radius);
+  ctx.stroke();
+
+  const gloss = ctx.createLinearGradient(x, y, x, y + height);
+  gloss.addColorStop(0, "rgba(255,255,255,0.34)");
+  gloss.addColorStop(0.6, "rgba(255,255,255,0.08)");
+  gloss.addColorStop(1, "rgba(255,255,255,0)");
+  drawRoundedRect(x + 3, y + 2, width - 6, height * 0.56, Math.max(8, radius - 3));
+  ctx.fillStyle = gloss;
+  ctx.fill();
+
+  ctx.fillStyle = variant === "gold" ? "#1a1208" : "#f5e8c8";
+  ctx.font = `700 ${getResponsiveFontSize(17, 32, 0.036)}px "Cinzel", serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(label, centerX, centerY, width - 18);
+}
+
 function hexToRgb(hex) {
   const match = COLOR_HEX_RE.exec(hex || "");
   if (!match) return null;
@@ -823,14 +880,14 @@ function loose() {
     const buttonY = centerY + 95;
     retryButtonBounds = { x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight };
 
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
-    ctx.strokeStyle = "#111111";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
-    ctx.fillStyle = "#111111";
-    ctx.font = `bold ${getResponsiveFontSize(24, 36, 0.043)}px serif`;
-    ctx.fillText("Ressayer", centerX, buttonY + buttonHeight / 2, textMaxWidth);
+    drawCanvasButton({
+      x: buttonX,
+      y: buttonY,
+      width: buttonWidth,
+      height: buttonHeight,
+      label: "Ressayer",
+      variant: "gold",
+    });
   } else if (isTimerOver()) {
     if (!isTargetGlassFilled()) {
       ctx.fillStyle = "#ff000091";
@@ -847,14 +904,14 @@ function loose() {
       const buttonY = centerY + 95;
       retryButtonBounds = { x: buttonX, y: buttonY, width: buttonWidth, height: buttonHeight };
 
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
-      ctx.strokeStyle = "#111111";
-      ctx.lineWidth = 3;
-      ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
-      ctx.fillStyle = "#111111";
-      ctx.font = `bold ${getResponsiveFontSize(24, 36, 0.043)}px serif`;
-      ctx.fillText("Ressayer", centerX, buttonY + buttonHeight / 2, textMaxWidth);
+      drawCanvasButton({
+        x: buttonX,
+        y: buttonY,
+        width: buttonWidth,
+        height: buttonHeight,
+        label: "Ressayer",
+        variant: "gold",
+      });
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
       return;
@@ -890,28 +947,28 @@ function loose() {
     const ctaX = centerX - ctaWidth / 2;
     const ctaY = centerY + 125;
     continueButtonBounds = { x: ctaX, y: ctaY, width: ctaWidth, height: ctaHeight };
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(ctaX, ctaY, ctaWidth, ctaHeight);
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 4;
-    ctx.strokeRect(ctaX, ctaY, ctaWidth, ctaHeight);
-    ctx.fillStyle = "#111111";
-    ctx.font = `bold ${getResponsiveFontSize(20, 34, 0.04)}px serif`;
-    ctx.fillText("Continuer", centerX, ctaY + ctaHeight / 2, textMaxWidth);
+    drawCanvasButton({
+      x: ctaX,
+      y: ctaY,
+      width: ctaWidth,
+      height: ctaHeight,
+      label: "Continuer",
+      variant: "gold",
+    });
 
     const secondaryWidth = 350;
     const secondaryHeight = 56;
     const secondaryX = centerX - secondaryWidth / 2;
     const secondaryY = ctaY + ctaHeight + 16;
     retryButtonBounds = { x: secondaryX, y: secondaryY, width: secondaryWidth, height: secondaryHeight };
-    ctx.fillStyle = "rgba(255, 255, 255, 0.18)";
-    ctx.fillRect(secondaryX, secondaryY, secondaryWidth, secondaryHeight);
-    ctx.strokeStyle = "#ffffff";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(secondaryX, secondaryY, secondaryWidth, secondaryHeight);
-    ctx.fillStyle = "#ffffff";
-    ctx.font = `bold ${getResponsiveFontSize(18, 30, 0.035)}px serif`;
-    ctx.fillText("Changer de couleur", centerX, secondaryY + secondaryHeight / 2, textMaxWidth);
+    drawCanvasButton({
+      x: secondaryX,
+      y: secondaryY,
+      width: secondaryWidth,
+      height: secondaryHeight,
+      label: "Changer de couleur",
+      variant: "ghost",
+    });
   }
 
   ctx.textAlign = "left";

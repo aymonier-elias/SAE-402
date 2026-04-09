@@ -1,0 +1,281 @@
+/* ============================================================
+   BASE
+   ============================================================ */
+
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 8px;
+    box-sizing: border-box;
+
+    font-family: "Georgia", serif;
+    background: radial-gradient(circle, #f5ecd7 0%, #e6d3a3 100%);
+}
+
+.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* ============================================================
+   BOUTONS
+   ============================================================ */
+
+button {
+    padding: 6px 16px;
+    font-size: 14px;
+    cursor: pointer;
+
+    border-radius: 6px;
+    border: 2px solid #6b4f3a;
+
+    background: #f2e8d5;
+    color: #3b2b1f;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #e6d3a3;
+}
+
+/* Boutons d'action principaux */
+#btn-jouer,
+#btn-rejouer {
+    background: #8b2e2e;
+    color: white;
+    border-color: #8b2e2e;
+    font-size: 18px;
+}
+
+#btn-jouer:hover,
+#btn-rejouer:hover {
+    background: #6e2323;
+}
+
+/* Bouton retour accueil (fixé en haut à gauche) */
+#btn-home {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 20;
+
+    background: #6b4f3a;
+    color: #f2e8d5;
+
+    border: none;
+    border-radius: 6px;
+
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+#btn-home:active {
+    transform: scale(0.95);
+}
+
+
+/* ============================================================
+   ÉCRAN D'ACCUEIL
+   ============================================================ */
+
+#screen-start {
+    background: radial-gradient(circle, #f5ecd7 0%, #e6d3a3 100%);
+}
+
+#screen-start p {
+    text-align: center;
+    max-width: 300px;
+}
+
+#illus {
+    width: 180px;
+    border-radius: 12px;
+    border: 3px solid #6b4f3a;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Sélecteur de difficulté à l'accueil */
+#niveau-start {
+    display: flex;
+    gap: 8px;
+}
+
+#niveau-start button.selected {
+    background: #3b2b1f;
+    color: white;
+}
+
+
+/* ============================================================
+   INTERFACE DE JEU
+   ============================================================ */
+
+#status {
+    font-size: 14px;
+    color: #5a4632;
+    text-align: center;
+    margin-top: 40px;
+}
+
+#chrono {
+    font-size: 20px;
+    font-family: monospace;
+    color: #2f3e6b;
+    letter-spacing: 2px;
+}
+
+canvas {
+    border: 8px solid #6b4f3a;
+    border-radius: 12px;
+
+    max-width: 55vh;
+
+    background: repeating-linear-gradient(
+        0deg,
+        #f2e8d5,
+        #f2e8d5 8px,
+        #e9dcc3 8px,
+        #e9dcc3 16px
+    );
+
+    box-shadow:
+        inset 0 0 20px rgba(0, 0, 0, 0.2),
+        0 10px 30px rgba(0, 0, 0, 0.3);
+
+    display: block;
+}
+
+/* Sélecteur de difficulté en cours de partie */
+#niveau {
+    display: flex;
+    gap: 8px;
+}
+
+
+/* ============================================================
+   CONTRÔLES DIRECTIONNELS
+   ============================================================ */
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+#controls > div {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+#btn-up,
+#btn-left,
+#btn-right,
+#btn-down {
+    width: 50px;
+    height: 50px;
+    padding: 6px;
+
+    background: #f2e8d5;
+    border: 2px solid #6b4f3a;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    touch-action: none;
+    user-select: none;
+
+    transition: transform 0.05s, background 0.1s;
+}
+
+#btn-up:active,
+#btn-left:active,
+#btn-right:active,
+#btn-down:active {
+    background: #d8c7a0;
+    transform: scale(0.92);
+}
+
+
+/* ============================================================
+   ÉCRAN DE FIN DE PARTIE
+   ============================================================ */
+
+#screen-end {
+    background: radial-gradient(circle, #2b1d14, #000);
+    color: #f2e8d5;
+    text-align: center;
+
+    animation: fadeIn 0.6s ease;
+}
+
+/* Motif diagonal en surimpression */
+#screen-end::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background: repeating-linear-gradient(
+        45deg,
+        rgba(230, 57, 70, 0.15),
+        rgba(230, 57, 70, 0.15) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+
+    opacity: 0.4;
+}
+
+#screen-end h2 {
+    font-size: 2.2rem;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+#screen-end p {
+    font-size: 1.2rem;
+    color: #e6d3a3;
+}
+
+
+/* ============================================================
+   COMMUN AUX DEUX ÉCRANS (start + end)
+   ============================================================ */
+
+#screen-start,
+#screen-end {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+    z-index: 10;
+}
