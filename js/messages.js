@@ -16,7 +16,7 @@ const FLOW = [
       coords: [47.7487, 7.3382]
     },
     nextUrl: "jeu_1/index.html",
-    cta: "Lancer le jeu 1"
+    cta: "Créer la couleur"
   },
   {
     title: "Avant le jeu 2",
@@ -33,7 +33,7 @@ const FLOW = [
       coords: [47.7483, 7.3393]
     },
     nextUrl: "jeu_2/index.html",
-    cta: "Lancer le jeu 2"
+    cta: "Trouver le patern"
   },
   {
     title: "Avant le jeu 3",
@@ -47,10 +47,10 @@ const FLOW = [
     choices: ["On y va.", "Je t'aide a assembler."],
     location: {
       name: "Rue Henriette, Mulhouse",
-      coords: [47.7489, 7.3411]
+      coords: [47.74659371580632, 7.337241670299067]
     },
     nextUrl: "jeu_3/index.html",
-    cta: "Lancer le jeu 3"
+    cta: "Assembler le tissu"
   },
   {
     title: "Avant le jeu 4",
@@ -67,14 +67,14 @@ const FLOW = [
       coords: [47.7446, 7.3365]
     },
     nextUrl: "jeu_4/index.html",
-    cta: "Lancer le jeu 4"
+    cta: "Donné le cadeau"
   },
   {
     title: "Epilogue",
     rappel: "La creation est terminee.",
     lines: [{ from: "h", text: "Merci pour ton aide. C'etait une belle aventure." }],
     choices: ["Merci Henriette."],
-    nextUrl: "index.html",
+    nextUrl: "/index.html",
     cta: "Retour a l'accueil"
   }
 ];
@@ -167,7 +167,13 @@ function showMapThenLaunch() {
 
   const [lat, lng] = current.location.coords;
   mapTitleEl.textContent = `Retrouve Henriette a ${current.location.name}`;
+
+  // La carte devient une bulle dans le meme fil de messages.
   mapWrapEl.classList.remove("hidden");
+  if (!listEl.contains(mapWrapEl)) {
+    mapWrapEl.classList.add("message-bubble", "from-h", "message-map-bubble");
+    listEl.appendChild(mapWrapEl);
+  }
 
   if (!mapInstance) {
     mapInstance = L.map(mapEl, { zoomControl: true }).setView([lat, lng], 16);
@@ -192,6 +198,7 @@ function showMapThenLaunch() {
   startUserLocation();
   btnLancer.classList.remove("hidden");
   updateLaunchAvailability();
+  listEl.scrollTop = listEl.scrollHeight;
 }
 
 function setMapStatus(text) {

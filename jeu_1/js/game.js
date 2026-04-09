@@ -171,6 +171,14 @@ function rgbToHex(rgb) {
   return `#${toHex(rgb.r)}${toHex(rgb.g)}${toHex(rgb.b)}`;
 }
 
+function saveStoryColor(hexColor) {
+  try {
+    localStorage.setItem("henriette.couleur", hexColor);
+  } catch (_e) {
+    // Ignore localStorage errors on restricted browsers.
+  }
+}
+
 function lerpColor(from, to, t) {
   return {
     r: from.r + (to.r - from.r) * t,
@@ -334,6 +342,8 @@ function onCanvasClick(event) {
       y >= continueButtonBounds.y &&
       y <= continueButtonBounds.y + continueButtonBounds.height;
     if (clickedContinue) {
+      const finalColor = getFinalTargetColor();
+      if (finalColor) saveStoryColor(rgbToHex(finalColor));
       if (CONTINUE_REDIRECT_URL) window.location.href = CONTINUE_REDIRECT_URL;
       else returnToIntro();
       return;

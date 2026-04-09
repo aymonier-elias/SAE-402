@@ -13,6 +13,17 @@ const gameData = {
     motif:   'rayures',
 };
 
+function loadStoryColor() {
+    try {
+        const saved = localStorage.getItem('henriette.couleur');
+        if (saved && /^#[0-9a-fA-F]{6}$/.test(saved)) {
+            gameData.couleur = saved;
+        }
+    } catch (_e) {
+        // Ignore localStorage errors and keep default color.
+    }
+}
+
 // Couleurs du labyrinthe
 const C_WALL    = '#3b2b1f';  // murs
 const C_PATH    = '#f2e8d5';  // passages
@@ -502,5 +513,6 @@ document.getElementById('btn-launch-outro').addEventListener('click', () => {
 //  DÉMARRAGE
 // 
 
+loadStoryColor();
 choixNiv('moyen');
 boucle();
