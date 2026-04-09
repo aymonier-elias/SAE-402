@@ -384,6 +384,7 @@ document.getElementById('start-moyen').classList.add('selected');
 
 document.getElementById('btn-jouer').addEventListener('click', () => {
     document.getElementById('screen-start').classList.add('hidden');
+    document.getElementById('btn-home').classList.remove('hidden');
     document.getElementById('niveau').style.display = 'none';
     startGame();
 });
@@ -391,6 +392,7 @@ document.getElementById('btn-jouer').addEventListener('click', () => {
 document.getElementById('btn-home').addEventListener('click', () => {
     document.getElementById('screen-start').classList.remove('hidden');
     document.getElementById('screen-end').classList.add('hidden');
+    document.getElementById('btn-home').classList.add('hidden');
     document.getElementById('niveau').style.display = 'flex';
 });
 
@@ -411,6 +413,7 @@ function showEnd() {
 document.getElementById('btn-rejouer').addEventListener('click', () => {
     document.getElementById('screen-end').classList.add('hidden');
     document.getElementById('screen-start').classList.remove('hidden');
+    document.getElementById('btn-home').classList.add('hidden');
 });
 
 document.getElementById('btn-next-game').addEventListener('click', () => {

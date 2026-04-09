@@ -603,6 +603,75 @@ body:not(.fond-accueil)::before {
     border-bottom: 10px solid #2b7cff;
 }
 
+/* ══════════════════════════════
+   SCENE FINALE
+══════════════════════════════ */
+
+.finale-page {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    overflow: hidden;
+}
+
+.finale-card {
+    width: min(560px, 100%);
+    background: rgba(8, 5, 2, 0.78);
+    border: 1px solid rgba(240, 210, 150, 0.38);
+    border-radius: 16px;
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+    padding: 18px;
+    text-align: center;
+    color: var(--ivoire);
+}
+
+.finale-card h1 {
+    font-family: "Cinzel", serif;
+    color: var(--or-vif);
+    margin: 0 0 10px;
+}
+
+.finale-card p {
+    margin: 0 0 14px;
+    line-height: 1.4;
+}
+
+.finale-image {
+    width: 100%;
+    height: calc(100dvh - 260px);
+    max-height: 100dvh;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid rgba(240, 210, 150, 0.38);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+    margin-bottom: 14px;
+}
+
+.finale-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.finale-btn {
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-family: "Cinzel", serif;
+    background: linear-gradient(135deg, #f0c060, #c9973a);
+    color: #1a1208;
+    border: 1px solid rgba(240, 192, 96, 0.65);
+}
+
+.finale-btn-secondary {
+    background: rgba(8, 5, 2, 0.75);
+    color: var(--ivoire);
+    border-color: rgba(240, 210, 150, 0.38);
+}
+
 .messages-typing {
     align-self: flex-start;
     background: rgba(245, 232, 200, 0.12);

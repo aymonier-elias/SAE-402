@@ -1,0 +1,359 @@
+/* ============================= */
+/* Variables globales de couleur */
+/* ============================= */
+:root {
+  --ciel-haut: #7ed7ff;
+  --ciel-bas: #ccf4ff;
+  --herbe-claire: #65c961;
+  --herbe-foncee: #4a9e4a;
+  --panneau: rgba(8, 5, 2, 0.72);
+  --texte-clair: #f5e8c8;
+  --accent: #f0c060;
+  --danger: #ff9b9b;
+  --succes: #96f59f;
+}
+
+/* Reset minimal */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Corps de page en plein ecran */
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Crimson Text", serif;
+  background: linear-gradient(to bottom, var(--ciel-haut), var(--ciel-bas));
+  color: var(--texte-clair);
+  touch-action: manipulation;
+}
+
+/* Canvas principal du jeu */
+#gameCanvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* Petit affichage score en haut */
+.score-fixe {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 12;
+  background: var(--panneau);
+  border: 1px solid rgba(240, 210, 150, 0.4);
+  border-radius: 999px;
+  padding: 8px 14px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+  color: var(--texte-clair);
+  font-weight: 700;
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+/* Barre d'informations en haut */
+.hud {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Cartes du HUD */
+.panel {
+  background: var(--panneau);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(3px);
+}
+
+.panel strong {
+  color: var(--accent);
+}
+
+/* Overlay central pour menu / game over */
+.center-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 20;
+  pointer-events: none;
+  padding: 16px;
+  text-align: center;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Carte du message central */
+.message-card {
+  max-width: 540px;
+  background: rgba(8, 5, 2, 0.82);
+  border-radius: 16px;
+  border: 1px solid rgba(240, 210, 150, 0.35);
+  padding: 18px 18px 14px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.message-card h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.2rem, 2.2vw, 1.8rem);
+  line-height: 1.2;
+  font-family: "Cinzel", serif;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.message-card p {
+  margin: 8px 0;
+  color: var(--texte-clair);
+  line-height: 1.35;
+}
+
+/* Zone des boutons */
+.btn-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* Style commun des boutons */
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: "Cinzel", serif;
+  letter-spacing: 0.04em;
+  transition: transform 0.08s ease, filter 0.12s ease;
+}
+
+button:hover {
+  filter: brightness(1.06);
+}
+
+button:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* Bouton principal */
+.primary {
+  background: linear-gradient(135deg, #f0c060, #c9973a);
+  color: #1a1208;
+}
+
+/* Bouton secondaire */
+.secondary {
+  background: rgba(20, 12, 4, 0.64);
+  border: 1px solid rgba(240, 210, 150, 0.35);
+  color: var(--texte-clair);
+}
+
+/* Classe utilitaire */
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hidden .message-card {
+  opacity: 0;
+  transform: translateY(8px) scale(0.99);
+}
+
+/* Petit texte d'aide */
+.hint {
+  color: #d7c4a0;
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+/* Legende visuelle des tuyaux dans le menu */
+.legende-tuyaux {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(72px, 1fr));
+  gap: 8px;
+  margin: 10px 0 4px;
+}
+
+.carte-tuyau {
+  background: rgba(245, 232, 200, 0.08);
+  border: 1px solid rgba(240, 210, 150, 0.2);
+  border-radius: 10px;
+  padding: 8px 4px 6px;
+}
+
+.mini-tuyau {
+  width: 24px;
+  height: 54px;
+  margin: 0 auto 5px;
+  border-radius: 3px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  position: relative;
+}
+
+.mini-tuyau::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  right: -5px;
+  top: -8px;
+  height: 8px;
+  border-radius: 3px 3px 0 0;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  border-bottom: none;
+}
+
+.mini-tuyau.boost {
+  background: #d94949;
+}
+.mini-tuyau.boost::before {
+  background: #a62f2f;
+}
+
+.mini-tuyau.mobile {
+  background: #55c88a;
+}
+.mini-tuyau.mobile::before {
+  background: #329b66;
+}
+
+.mini-tuyau.inverse {
+  background: #4386e0;
+}
+.mini-tuyau.inverse::before {
+  background: #2a5dab;
+}
+
+.mini-tuyau.rafale {
+  background: #9b58d5;
+}
+.mini-tuyau.rafale::before {
+  background: #6f38a8;
+}
+
+.mini-tuyau.fin {
+  background: #f1c232;
+}
+.mini-tuyau.fin::before {
+  background: #c89f1a;
+}
+
+.effet-tuyau {
+  display: block;
+  color: var(--texte-clair);
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 760px) {
+  .center-overlay {
+    padding: 10px 8px 14px;
+    align-items: start;
+    overflow-y: auto;
+  }
+
+  .message-card {
+    width: min(98vw, 620px);
+    margin-top: 6px;
+    padding: 14px 12px 14px;
+    border-radius: 12px;
+    max-height: calc(100dvh - 20px);
+    overflow-y: auto;
+  }
+
+  .message-card h1 {
+    font-size: 1.12rem;
+  }
+
+  .message-card p {
+    margin: 6px 0;
+    line-height: 1.28;
+    font-size: 0.92rem;
+  }
+
+  .btn-row {
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  button {
+    min-height: 44px;
+    padding: 11px 14px;
+    font-size: 0.95rem;
+  }
+
+  .legende-tuyaux {
+    grid-template-columns: repeat(2, minmax(92px, 1fr));
+    gap: 8px;
+    margin: 10px 0 4px;
+  }
+
+  .carte-tuyau {
+    padding: 8px 5px 6px;
+  }
+
+  .mini-tuyau {
+    width: 20px;
+    height: 46px;
+    margin-bottom: 4px;
+  }
+
+  .effet-tuyau {
+    font-size: 0.74rem;
+  }
+}
+
+@media (max-width: 460px) {
+  .score-fixe {
+    top: 8px;
+    left: 8px;
+    padding: 6px 9px;
+    font-size: 0.86rem;
+    border-radius: 10px;
+  }
+
+  .message-card {
+    width: min(98vw, 620px);
+    padding: 12px 10px 12px;
+  }
+
+  .message-card h1 {
+    font-size: 1.02rem;
+  }
+
+  .btn-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  button {
+    width: 100%;
+    min-height: 46px;
+  }
+
+  .legende-tuyaux {
+    grid-template-columns: repeat(2, minmax(72px, 1fr));
+    gap: 6px;
+  }
+}

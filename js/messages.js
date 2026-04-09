@@ -74,8 +74,8 @@ const FLOW = [
     rappel: "La creation est terminee.",
     lines: [{ from: "h", text: "Merci pour ton aide. C'etait une belle aventure." }],
     choices: ["Merci Henriette."],
-    nextUrl: "/index.html",
-    cta: "Retour a l'accueil"
+    nextUrl: "finale.html",
+    cta: "Voir la scene de fin"
   }
 ];
 
@@ -153,6 +153,13 @@ function showChoices() {
     btn.addEventListener("click", () => {
       addMsg("j", choice);
       choicesEl.classList.add("hidden");
+      if (!current.location) {
+        setMapStatus("");
+        setTimeout(() => {
+          window.location.href = current.nextUrl;
+        }, 900);
+        return;
+      }
       showMapThenLaunch();
     });
     choicesEl.appendChild(btn);
