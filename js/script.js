@@ -61,3 +61,12 @@ if (audio && boutonSon) {
         }
     });
 }
+
+/* ── Lancement de l'histoire ── */
+const boutonCommencerHistoire = document.querySelector('.bouton-commencer');
+
+if (boutonCommencerHistoire) {
+    boutonCommencerHistoire.addEventListener('click', () => {
+        window.location.href = 'messages.html?step=0';
+    });
+}

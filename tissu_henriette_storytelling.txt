@@ -1,0 +1,130 @@
+﻿Le tissu d'Henriette
+Escape Game Mobile - Mulhouse
+Story telling complet & Spécifications des mini-jeux
+
+
+Ce document présente le story telling détaillé de chaque étape de l'escape game mobile géolocalisé " Le tissu d'Henriette ", incluant les dialogues SMS complets, les contextes historiques des lieux, et les spécifications de chaque mini-jeu.
+
+Sommaire
+1.  Prologue - Le message d'Henriette
+2.  Étape 1 - Cours des Chaînes : La couleur
+3.  Étape 2 - Rue des Tanneurs : Le motif
+4.  Étape 3 - Rue Henriette : L'assemblage
+5.  Étape 4 - Parc Steinbach : L'offrande (Final)
+6.  Épilogue - Le message de remerciement
+
+
+PrologueLe message d'Henriette
+📍 Partout - Point de départ
+SITUATION DE DÉPART
+Le joueur reçoit un message inattendu d'un numéro inconnu. Une jeune femme prénommée Henriette cherche de l'aide pour confectionner un tissu unique à offrir à sa mère pour son anniversaire. Elle ne sait pas par où commencer et sollicite de l'aide via SMS.
+
+DIALOGUES SMS
+Aujourd'hui, 14h23 - numéro inconnu
+Henriette : Bonjour... Je ne sais pas vraiment à qui j'écris.
+Henriette : Je m'appelle Henriette. J'ai besoin d'aide.
+Henriette : L'anniversaire de ma mère approche bientôt. Je veux lui offrir quelque chose d'unique... quelque chose qui vient vraiment de moi, pas d'une boutique.
+Henriette : J'ai une idée un peu folle. Lui créer un tissu à la main. Mulhouse a toute une histoire avec le textile, tu sais...
+Henriette : Mais je ne sais pas par où commencer. Et je ne peux pas le faire seule.
+Henriette : [Photo : Cours des Chaînes, façades colorées] - Tu vois cette place ? C'est là que tout commence. Tu peux venir ?
+Joueur : J'arrive !
+TRANSITION
+Le joueur accepte. La géolocalisation s'active. L'application indique la direction vers le Cours des Chaînes.
+
+Étape 1La couleur - Alchimie des teintes
+📍 Cours des Chaînes, Mulhouse
+CONTEXTE HISTORIQUE DU LIEU
+Le Cours des Chaînes était le cœur alchimique de Mulhouse au XVIIIe siècle. Des teinturiers y expérimentaient des formules secrètes pour créer les couleurs uniques des célèbres toiles imprimées mulhousiennes - les " indiennes ". Chaque teinte était un secret de fabrication jalousement gardé, transmis de maître à apprenti. Ce savoir-faire a fait la renommée internationale du textile alsacien.
+DIALOGUES SMS
+Cours des Chaînes - tu arrives sur place
+Henriette : Tu es là ! Merci d'être venu... je ne pensais pas que quelqu'un répondrait vraiment.
+Henriette : Regarde ces façades autour de nous. Mulhouse déborde de couleurs, tu ne trouves pas ?
+Henriette : Les anciens alchimistes de cette place passaient des journées entières à mélanger des pigments. Ils cherchaient la teinte parfaite pour leurs tissus. Un secret qu'ils gardaient jalousement.
+Henriette : Un tissu, c'est d'abord une identité. Et une identité, c'est d'abord une couleur.
+Henriette : Aide-moi à trouver la nôtre.
+- Mini-jeu 1 déclenché -
+Henriette : C'est ça... tu vois cette teinte ? Elle ressemble à Mulhouse. Chaude, vivante.
+Henriette : On a notre couleur. Mais maintenant il faut imaginer ce que ce tissu va raconter. Suis-moi, je connais l'endroit parfait pour ça.
+MINI-JEU 1 - ALCHIMIE DES COULEURS
+Le joueur mélange des fioles de pigments colorés dans une coupelle centrale pour obtenir une teinte cible précise. Cette couleur représentera l'identité du tissu et persistera tout au long du jeu.
+MécanismeVerser des liquides colorés dans une coupelle centrale. Doser avec précision sans déborder.DifficultéInertie des liquides, risque de débordement, palette de mélanges non-linéaire (ex : trop de rouge vire au marron).RésultatLa teinte finale obtenue est enregistrée et appliquée au tissu pour toute la suite du jeu.Durée estimée3 à 5 minutes
+TRANSITION
+Couleur sauvegardée et affichée dans l'interface. La carte se met à jour. Prochain repère : Rue des Tanneurs.
+
+Étape 2Le motif - Protège & crée
+📍 Rue des Tanneurs, Mulhouse
+CONTEXTE HISTORIQUE DU LIEU
+La Rue des Tanneurs abritait les artisans qui transformaient les peaux brutes en cuir d'excellence - un travail minutieux de patience et de précision. Ils dessinaient, découpaient, assemblaient. C'est dans ces ateliers que la matière devenait œuvre. Aujourd'hui classée, la rue avec ses maisons à colombages témoigne du Mulhouse ouvrier et créateur du XIXe siècle.
+DIALOGUES SMS
+Rue des Tanneurs - tu arrives devant les maisons à colombages
+Henriette : Tu entends ce calme ? Ici, les artisans passaient des heures à transformer leurs idées en matière.
+Henriette : Avant de créer, il faut imaginer. Et parfois, les idées prennent forme pendant qu'on travaille de ses mains.
+Henriette : Oh non - des insectes ! Ils essaient de s'installer sur notre tissu avant même qu'on ait commencé !
+Joueur : Je m'en occupe !
+- Mini-jeu 2 déclenché -
+Henriette : Voilà... on commence à voir ce qu'il pourrait devenir.
+Henriette : Mais il lui manque encore quelque chose d'essentiel. Ce qu'il veut dire. Viens, je t'emmène quelque part de particulier.
+MINI-JEU 2 - PROTÈGE & TISSE LE MOTIF
+Le jeu se déroule en deux phases alternées. Phase 1 : chasser les insectes aux trajectoires aléatoires qui tentent de salir le tissu. Phase 2 : pendant les accalmies, dessiner le motif textile en reliant des fils et assemblant des formes inspirées de la ville.
+Phase 1 - DéfenseLes insectes apparaissent par vagues avec des trajectoires aléatoires naturelles. Le joueur les touche pour les faire partir avant qu'ils n'atteignent le tissu.Phase 2 - CréationEntre les vagues, une fenêtre de création s'ouvre : relier des nœuds avec des fils, placer des formes géométriques pour composer le motif. Interaction glisser-déposer.DifficultéLes vagues s'accélèrent au fil du temps. La fenêtre de création se raccourcit. Un motif incomplet est pénalisé visuellement sur le tissu final.RésultatLe motif dessiné est enregistré et fusionné avec la couleur de l'étape 1 pour composer le tissu final.Durée estimée5 à 8 minutes
+TRANSITION
+Motif sauvegardé. Un aperçu du tissu (couleur + motif) apparaît dans l'interface. Direction : Rue Henriette.
+
+Étape 3L'assemblage - Rue Henriette
+📍 Rue Henriette, Mulhouse
+CONTEXTE HISTORIQUE DU LIEU
+La Rue Henriette porte un prénom - comme une personne, pas une date ni un général. Dans le vieux Mulhouse, plusieurs rues ont été baptisées de prénoms féminins, rendant hommage aux femmes liées à l'histoire industrielle et familiale de la ville. Une façon discrète mais durable de les inscrire dans le paysage urbain mulhousien.
+DIALOGUES SMS
+Rue Henriette - Henriette s'arrête, silencieuse
+Henriette : Cette rue... elle porte mon nom.
+Henriette : Je n'y avais jamais vraiment pensé avant. Mais là, avec ce tissu entre les mains...
+Henriette : On a tout ce qu'il faut. La couleur. Le motif. Mais les pièces sont encore séparées.
+Henriette : Aide-moi à les assembler. C'est ici que tout doit se réunir.
+- Mini-jeu 3 déclenché -
+Henriette : Il est prêt.
+Henriette : ...
+Henriette : Il ne reste plus qu'une chose à faire. Viens avec moi.
+MINI-JEU 3 - ASSEMBLE LE TISSU
+Le joueur réassemble les fragments du tissu dans le bon ordre. La couleur (étape 1) et le motif (étape 2) apparaissent progressivement sur le tissu au fur et à mesure de l'assemblage. C'est le moment de finalisation de toute la création.
+MécanismeDes fragments du tissu (4 à 9 pièces) sont disposés en désordre. Le joueur les replace dans la bonne position par glisser-déposer ou tap-to-place.Feedback visuelÀ chaque pièce correctement placée, la couleur et le motif des étapes précédentes s'affichent sur ce fragment. Le tissu prend vie progressivement.DifficultéSimple et accessible - c'est un moment de satisfaction, pas de frustration. Le challenge est visuel, pas technique.Résultat cléLe tissu complet est généré - unique selon les choix du joueur. Il sera affiché à l'étape finale et en conclusion.Durée estimée2 à 4 minutes
+TRANSITION
+Tissu complet généré et affiché à l'écran. Pause narrative. Henriette regarde le tissu en silence. Direction : Parc Steinbach.
+
+Étape 4 - FinalL'offrande - Le cadeau
+📍 Parc Steinbach, Mulhouse
+CONTEXTE HISTORIQUE DU LIEU
+Le Parc Steinbach est un havre de verdure au cœur de Mulhouse, lieu de promenade familiale depuis le XIXe siècle. Fondé sous l'impulsion de la bourgeoisie industrielle mulhousienne soucieuse du bien-être de ses ouvriers, il a toujours été un espace pour souffler, se retrouver, et partager un moment simple loin du bruit des usines. Un lieu chargé de mémoire collective.
+DIALOGUES SMS
+Parc Steinbach - calme, lumière douce de fin d'après-midi
+Henriette : C'est calme ici.
+Henriette : C'est là qu'on venait pique-niquer quand j'étais petite, ma mère et moi. Je me souviens d'elle qui dépliait une nappe à carreaux sur l'herbe...
+Henriette : Je veux lui offrir le tissu ici. Maintenant.
+Henriette : Mais... j'ai toujours eu du mal à dire ce que je ressens. Tu peux m'aider à choisir comment lui offrir ?
+- Mini-jeu 4 déclenché - Choix de la façon d'offrir
+Henriette : Maman...
+Henriette : Je t'ai fabriqué quelque chose.
+La mère déplie le tissu. Elle le regarde longuement, en silence.
+Un sourire. Elles s'installent toutes les deux sur le tissu pour pique-niquer.
+MINI-JEU 4 (FINAL) - L'OFFRANDE
+Le joueur choisit la façon dont Henriette va offrir son cadeau à sa mère. Ce choix influence le dialogue final et l'animation de conclusion. Puis il déclenche l'action finale.
+Choix 1 - Avec émotionHenriette laisse parler son cœur. Dialogue touchant, les deux femmes s'étreignent avant de s'asseoir ensemble sur le tissu.Choix 2 - Avec fiertéHenriette explique tout le processus de création. Sa mère est admirative et pose des questions sur chaque étape.Choix 3 - TimidementHenriette tend le tissu sans un mot, les yeux baissés. Sa mère comprend et lui prend doucement la main.Action finaleBouton " Offrir le tissu " - animation du tissu final qui se déploie sur tout l'écran, puis transition vers la scène de pique-nique.Durée estimée1 à 2 minutes
+TRANSITION
+Scène de pique-nique animée sur le tissu créé par le joueur. Affichage du tissu unique. Transition vers l'épilogue.
+
+ÉpilogueLe message de remerciement
+📍 Après la partie - message final
+NARRATION
+Le lendemain, le joueur reçoit un dernier message d'Henriette. Elle raconte comment s'est passée la soirée. Le jeu se clôt sur une note intime et personnelle.
+
+DIALOGUES SMS
+Le lendemain - Henriette t'écrit
+Henriette : Tu aurais vu son sourire...
+Henriette : Elle a déplié le tissu lentement. Elle l'a regardé longtemps, sans rien dire.
+Henriette : Et puis elle s'est assise dessus, comme si c'était la chose la plus naturelle du monde.
+Henriette : On a pique-niqué toutes les deux. Sur notre tissu. Sur notre histoire.
+Henriette : Merci.
+Henriette : Tu m'as aidée à créer bien plus qu'un tissu.
+Joueur : C'était une belle aventure.
+Fin - Le tissu d'Henriette
+ÉCRAN DE FIN - SPÉCIFICATIONS
+Tissu finalAffichage du tissu unique généré par le joueur - couleur, motif et texture combinés selon ses choix.Résumé de partieRécapitulatif des choix effectués : couleur obtenue, motif créé, façon d'offrir choisie.PartageOption de partager une image du tissu créé sur les réseaux sociaux ou de recommencer une nouvelle aventure.Durée totale jeuEnviron 30 à 45 minutes en conditions réelles (déplacements géolocalisés inclus).

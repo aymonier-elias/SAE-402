@@ -71,6 +71,49 @@
         <h2>Bravo !</h2>
         <p id="end-temps"></p>
         <button id="btn-rejouer">Rejouer</button>
+        <button id="btn-next-game">Jeu 4</button>
+    </div>
+
+    <!-- Session messagerie avant le jeu -->
+    <div id="screen-chat-intro" class="chat-screen hidden">
+        <div class="chat-phone">
+            <div class="chat-header">
+                <span>Henriette</span>
+                <small>En ligne</small>
+            </div>
+            <div id="history-intro" class="history-card">
+                <h3>Rappel historique</h3>
+                <p>
+                    La Rue Henriette porte un prenom feminin. A Mulhouse, ces rues rendent hommage
+                    aux femmes liees a l histoire industrielle et familiale de la ville.
+                </p>
+                <p class="tap-hint">Appuie sur l ecran pour continuer</p>
+            </div>
+            <div id="chat-messages-intro" class="chat-messages hidden"></div>
+            <div id="chat-choices-intro" class="chat-choices hidden"></div>
+            <button id="btn-launch-intro" class="chat-action hidden">Lancer le jeu</button>
+        </div>
+    </div>
+
+    <!-- Session messagerie après le jeu -->
+    <div id="screen-chat-outro" class="chat-screen hidden">
+        <div class="chat-phone">
+            <div class="chat-header">
+                <span>Henriette</span>
+                <small>Le lendemain</small>
+            </div>
+            <div id="history-outro" class="history-card">
+                <h3>Rappel historique</h3>
+                <p>
+                    Le tissu termine symbolise la memoire textile de Mulhouse :
+                    couleur, motif et assemblage reunis.
+                </p>
+                <p class="tap-hint">Appuie sur l ecran pour lire les messages</p>
+            </div>
+            <div id="chat-messages-outro" class="chat-messages hidden"></div>
+            <div id="chat-choices-outro" class="chat-choices hidden"></div>
+            <button id="btn-launch-outro" class="chat-action hidden">Voir le resultat</button>
+        </div>
     </div>
 
     <script src="JavaScript/script.js"></script>

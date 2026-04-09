@@ -138,6 +138,10 @@ function rejouer() {
   demarrerDecompte();
 }
 
+function allerJeuSuivant() {
+  window.location.href = '../messages.html?step=2';
+}
+
 /* ═══════════════════════════════════════════
    DÉCOMPTE
 ═══════════════════════════════════════════ */

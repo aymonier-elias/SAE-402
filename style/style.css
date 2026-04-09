@@ -380,3 +380,177 @@ body:not(.fond-accueil)::before {
     background: rgba(20, 12, 4, 0.75);
     border-color: rgba(240, 210, 150, 0.55);
 }
+
+/* ══════════════════════════════
+   PAGE MESSAGES
+══════════════════════════════ */
+
+.hidden { display: none !important; }
+
+.messages-page {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    animation: pageFadeIn .45s ease;
+}
+
+.messages-phone {
+    width: min(420px, 100%);
+    height: min(92dvh, 760px);
+    border-radius: 22px;
+    overflow: hidden;
+    border: 2px solid rgba(240, 210, 150, 0.5);
+    background: rgba(18, 10, 4, 0.88);
+    backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 16px 40px rgba(0,0,0,.45);
+}
+
+.messages-header {
+    padding: 14px;
+    border-bottom: 1px solid rgba(240, 210, 150, 0.3);
+}
+
+.messages-header h1 {
+    color: var(--ivoire);
+    font-size: 1.2rem;
+}
+
+.messages-header p {
+    color: var(--or-vif);
+    opacity: 0.9;
+}
+
+.messages-rappel {
+    margin: auto 14px;
+    padding: 16px;
+    border-radius: 14px;
+    background: rgba(245, 232, 200, 0.12);
+    border: 1px solid rgba(240, 210, 150, 0.35);
+    color: var(--ivoire);
+    animation: rappelIn .35s ease;
+}
+
+.messages-rappel h2 { margin-bottom: 10px; font-size: 1.05rem; }
+.messages-rappel p { line-height: 1.35; margin-bottom: 14px; }
+
+.messages-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.message-bubble {
+    max-width: 85%;
+    padding: 9px 12px;
+    border-radius: 12px;
+    color: var(--ivoire);
+    line-height: 1.35;
+    animation: bubbleIn .25s ease;
+}
+
+.from-h {
+    align-self: flex-start;
+    background: rgba(245, 232, 200, 0.16);
+    border: 1px solid rgba(240, 210, 150, 0.25);
+}
+
+.from-j {
+    align-self: flex-end;
+    background: rgba(201, 151, 58, 0.35);
+    border: 1px solid rgba(240, 210, 150, 0.4);
+}
+
+.messages-choices {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.messages-choice {
+    text-align: left;
+    border: 1px solid rgba(240, 210, 150, 0.35);
+    border-radius: 10px;
+    background: rgba(245, 232, 200, 0.12);
+    color: var(--ivoire);
+    padding: 10px;
+    font-family: 'Crimson Text', serif;
+    transition: transform .15s ease, background .2s ease, border-color .2s ease;
+}
+
+.messages-choice:hover {
+    transform: translateY(-1px);
+    background: rgba(245, 232, 200, 0.2);
+    border-color: rgba(240, 210, 150, 0.55);
+}
+
+.messages-btn {
+    margin: 10px;
+    border: 0;
+    border-radius: 999px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #f0c060, #c9973a);
+    color: #1a1208;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    transition: transform .18s ease, box-shadow .18s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,.35);
+}
+
+.messages-btn:hover {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 0 12px 26px rgba(0,0,0,.45);
+}
+
+.messages-btn:active {
+    transform: translateY(1px) scale(0.995);
+}
+
+.messages-typing {
+    align-self: flex-start;
+    background: rgba(245, 232, 200, 0.12);
+    border: 1px solid rgba(240, 210, 150, 0.25);
+    border-radius: 12px;
+    padding: 10px 12px;
+    width: 62px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.messages-typing span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(245, 232, 200, 0.9);
+    animation: dotBlink 1s infinite ease-in-out;
+}
+
+.messages-typing span:nth-child(2) { animation-delay: .15s; }
+.messages-typing span:nth-child(3) { animation-delay: .3s; }
+
+@keyframes pageFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rappelIn {
+    from { opacity: 0; transform: scale(.98); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes bubbleIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dotBlink {
+    0%, 80%, 100% { opacity: .25; transform: translateY(0); }
+    40% { opacity: 1; transform: translateY(-2px); }
+}

@@ -23,6 +23,43 @@ const C_CURRENT = '#d8c7a0';  // cellule active pendant la génération
 
 const MOVE_DELAY = 100; // délai en ms entre chaque déplacement maintenu
 
+const CHAT_SESSIONS = {
+    intro: {
+        historyId: 'history-intro',
+        screenId: 'screen-chat-intro',
+        messagesId: 'chat-messages-intro',
+        choicesId: 'chat-choices-intro',
+        actionId: 'btn-launch-intro',
+        actionLabel: 'Lancer le jeu',
+        lines: [
+            { from: 'h', text: 'Cette rue... elle porte mon nom.' },
+            { from: 'h', text: 'On a la couleur et le motif, mais les pieces sont encore separees.' },
+            { from: 'h', text: 'Aide moi a assembler le tissu. C est ici que tout doit se reunir.' }
+        ],
+        choices: [
+            'Je suis la, on assemble tout ensemble.',
+            'On y va, montre moi la suite.'
+        ]
+    },
+    outro: {
+        historyId: 'history-outro',
+        screenId: 'screen-chat-outro',
+        messagesId: 'chat-messages-outro',
+        choicesId: 'chat-choices-outro',
+        actionId: 'btn-launch-outro',
+        actionLabel: 'Voir le resultat',
+        lines: [
+            { from: 'h', text: 'Tu aurais vu son sourire...' },
+            { from: 'h', text: 'Elle a deplie le tissu lentement et l a regarde longtemps.' },
+            { from: 'h', text: 'Merci, tu m as aidee a creer bien plus qu un tissu.' }
+        ],
+        choices: [
+            'C etait une belle aventure.',
+            'Bravo Henriette, c etait magnifique.'
+        ]
+    }
+};
+
 
 // 
 //  ÉTAT DU JEU
@@ -45,6 +82,7 @@ let left = false, right = false, up = false, down = false;
 
 let temps1    = performance.now();
 let moveTimer = 0;
+let activeChatSession = null;
 
 
 // 
@@ -197,7 +235,7 @@ function boucle() {
 }
 
 function moteur() {
-    if (generating) return;
+    if (generating || isUiBlocked()) return;
 
     const temps2 = performance.now();
     const duree  = temps2 - temps1;
@@ -225,7 +263,7 @@ function afficher() {
 // 
 
 function move(dc, dr) {
-    if (generating) return;
+    if (generating || isUiBlocked()) return;
 
     const nc = player.c + dc;
     const nr = player.r + dr;
@@ -254,6 +292,11 @@ function idx(c, r) { return r * COLS + c; }
 // Vérifie qu'une cellule est dans les limites de la grille
 function inBounds(c, r) {
     return c >= 0 && c < COLS && r >= 0 && r < ROWS;
+}
+
+function isUiBlocked() {
+    return !document.getElementById('screen-start').classList.contains('hidden')
+        || !document.getElementById('screen-end').classList.contains('hidden');
 }
 
 
@@ -331,8 +374,7 @@ document.getElementById('start-moyen').classList.add('selected');
 document.getElementById('btn-jouer').addEventListener('click', () => {
     document.getElementById('screen-start').classList.add('hidden');
     document.getElementById('niveau').style.display = 'none';
-    choixNiv(selectedLevel);
-    startTime = performance.now();
+    startGame();
 });
 
 document.getElementById('btn-home').addEventListener('click', () => {
@@ -358,6 +400,101 @@ function showEnd() {
 document.getElementById('btn-rejouer').addEventListener('click', () => {
     document.getElementById('screen-end').classList.add('hidden');
     document.getElementById('screen-start').classList.remove('hidden');
+});
+
+document.getElementById('btn-next-game').addEventListener('click', () => {
+    window.location.href = '../messages.html?step=3';
+});
+
+function startGame() {
+    choixNiv(selectedLevel);
+    startTime = performance.now();
+}
+
+function pushMessage(targetId, from, text) {
+    const list = document.getElementById(targetId);
+    const bubble = document.createElement('div');
+    bubble.className = `msg ${from === 'h' ? 'msg-h' : 'msg-j'}`;
+    bubble.textContent = text;
+    list.appendChild(bubble);
+    list.scrollTop = list.scrollHeight;
+}
+
+function clearSessionUi(session) {
+    document.getElementById(session.messagesId).innerHTML = '';
+    document.getElementById(session.choicesId).innerHTML = '';
+}
+
+function startChatSession(key) {
+    const session = CHAT_SESSIONS[key];
+    activeChatSession = key;
+    clearSessionUi(session);
+
+    const screen = document.getElementById(session.screenId);
+    const history = document.getElementById(session.historyId);
+    const messages = document.getElementById(session.messagesId);
+    const choices = document.getElementById(session.choicesId);
+    const action = document.getElementById(session.actionId);
+
+    screen.classList.remove('hidden');
+    history.classList.remove('hidden');
+    messages.classList.add('hidden');
+    choices.classList.add('hidden');
+    action.classList.add('hidden');
+    action.textContent = session.actionLabel;
+
+    const revealMessages = () => {
+        history.classList.add('hidden');
+        messages.classList.remove('hidden');
+        playHenrietteLines(session, 0);
+        screen.removeEventListener('click', revealMessages);
+    };
+    screen.addEventListener('click', revealMessages);
+}
+
+function playHenrietteLines(session, index) {
+    if (activeChatSession === null) return;
+    if (index >= session.lines.length) {
+        showChoices(session);
+        return;
+    }
+    pushMessage(session.messagesId, session.lines[index].from, session.lines[index].text);
+    window.setTimeout(() => playHenrietteLines(session, index + 1), 700);
+}
+
+function showChoices(session) {
+    const choices = document.getElementById(session.choicesId);
+    choices.classList.remove('hidden');
+    choices.innerHTML = '';
+
+    session.choices.forEach(choiceText => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.textContent = choiceText;
+        btn.addEventListener('click', () => {
+            pushMessage(session.messagesId, 'j', choiceText);
+            choices.classList.add('hidden');
+            showChatAction(session);
+        });
+        choices.appendChild(btn);
+    });
+}
+
+function showChatAction(session) {
+    const action = document.getElementById(session.actionId);
+    action.classList.remove('hidden');
+}
+
+document.getElementById('btn-launch-intro').addEventListener('click', () => {
+    activeChatSession = null;
+    document.getElementById('screen-chat-intro').classList.add('hidden');
+    startGame();
+});
+
+document.getElementById('btn-launch-outro').addEventListener('click', () => {
+    activeChatSession = null;
+    document.getElementById('screen-chat-outro').classList.add('hidden');
+    document.getElementById('screen-end').classList.remove('hidden');
 });
 
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jeu 4 - L'offrande</title>
+  <link rel="stylesheet" href="../style/style.css">
+</head>
+<body class="fond-accueil">
+  <main class="messages-page">
+    <section class="messages-phone" style="justify-content:center;padding:18px;">
+      <h1 style="color:#f5e8c8;text-align:center;margin-bottom:12px;">Jeu 4 - L'offrande</h1>
+      <p style="color:#f5e8c8;text-align:center;line-height:1.4;margin-bottom:18px;">
+        Derniere etape : offrir le tissu a la mere d'Henriette.
+      </p>
+      <button id="btn-finish-game4" class="messages-btn">Terminer le jeu 4</button>
+    </section>
+  </main>
+  <script>
+    document.getElementById('btn-finish-game4').addEventListener('click', function () {
+      window.location.href = '../messages.html?step=4';
+    });
+  </script>
+</body>
+</html>
