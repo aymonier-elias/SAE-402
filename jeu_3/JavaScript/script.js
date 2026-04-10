@@ -44,12 +44,12 @@ const CHAT_SESSIONS = {
         actionLabel: 'Lancer le jeu',
         lines: [
             { from: 'h', text: 'Cette rue... elle porte mon nom.' },
-            { from: 'h', text: 'On a la couleur et le motif, mais les pieces sont encore separees.' },
-            { from: 'h', text: 'Aide moi a assembler le tissu. C est ici que tout doit se reunir.' }
+            { from: 'h', text: 'On a la couleur et le motif, mais les pièces sont encore séparées.' },
+            { from: 'h', text: 'Aide-moi à assembler le tissu. C est ici que tout doit se réunir.' }
         ],
         choices: [
-            'Je suis la, on assemble tout ensemble.',
-            'On y va, montre moi la suite.'
+            'Je suis là, on assemble tout ensemble.',
+            'On y va, montre-moi la suite.'
         ]
     },
     outro: {
@@ -58,15 +58,15 @@ const CHAT_SESSIONS = {
         messagesId: 'chat-messages-outro',
         choicesId: 'chat-choices-outro',
         actionId: 'btn-launch-outro',
-        actionLabel: 'Voir le resultat',
+        actionLabel: 'Voir le résultat',
         lines: [
             { from: 'h', text: 'Tu aurais vu son sourire...' },
-            { from: 'h', text: 'Elle a deplie le tissu lentement et l a regarde longtemps.' },
-            { from: 'h', text: 'Merci, tu m as aidee a creer bien plus qu un tissu.' }
+            { from: 'h', text: 'Elle a déplié le tissu lentement et l a regardé longtemps.' },
+            { from: 'h', text: 'Merci, tu m as aidée à créer bien plus qu un tissu.' }
         ],
         choices: [
-            'C etait une belle aventure.',
-            'Bravo Henriette, c etait magnifique.'
+            'C était une belle aventure.',
+            'Bravo Henriette, c était magnifique.'
         ]
     }
 };

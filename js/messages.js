@@ -4,11 +4,11 @@ const FLOW = [
   {
     title: "Prologue",
     rappel:
-      "Mulhouse est une ville textile. Chaque etape du parcours reprend un lieu reel et un savoir-faire local.",
+      "Mulhouse est une ville textile. Chaque étape du parcours reprend un lieu réel et un savoir-faire local.",
     lines: [
       { from: "h", text: "Bonjour... Je m'appelle Henriette." },
-      { from: "h", text: "J'ai besoin d'aide pour creer un tissu unique pour ma mere." },
-      { from: "h", text: "Tu peux venir au Cours des Chaines avec moi ?" }
+      { from: "h", text: "J'ai besoin d'aide pour créer un tissu unique pour ma mère." },
+      { from: "h", text: "Tu peux venir au Cours des Chaînes avec moi ?" }
     ],
     choices: ["J'arrive !", "Oui, je te suis."],
     location: {
@@ -21,27 +21,27 @@ const FLOW = [
   {
     title: "Avant le jeu 2",
     rappel:
-      "Le Cours des Chaines etait un lieu de teinture. Les couleurs des tissus y etaient des secrets d'atelier.",
+      "Le Cours des Chaînes était un lieu de teinture. Les couleurs des tissus y étaient des secrets d'atelier.",
     lines: [
-      { from: "h", text: "Super, on a trouve la couleur." },
+      { from: "h", text: "Super, on a trouvé la couleur." },
       { from: "h", text: "Maintenant, il faut imaginer le motif du tissu." },
       { from: "h", text: "Direction la Rue des Tanneurs." }
     ],
-    choices: ["On continue.", "Je suis pret."],
+    choices: ["On continue.", "Je suis prêt."],
     location: {
       name: "Rue des Tanneurs, Mulhouse",
       coords: [47.7483, 7.3393]
     },
     nextUrl: "jeu_2/index.html",
-    cta: "Trouver le patern"
+    cta: "Trouver le motif"
   },
   {
     title: "Avant le jeu 3",
     rappel:
-      "La Rue des Tanneurs rappelle les artisans qui transformaient la matiere avec patience et precision.",
+      "La Rue des Tanneurs rappelle les artisans qui transformaient la matière avec patience et précision.",
     lines: [
       { from: "h", text: "Le motif est en place." },
-      { from: "h", text: "Il faut maintenant assembler toutes les pieces." },
+      { from: "h", text: "Il faut maintenant assembler toutes les pièces." },
       { from: "h", text: "Rendez-vous Rue Henriette." }
     ],
     choices: ["On y va.", "Je t'aide a assembler."],
@@ -55,9 +55,9 @@ const FLOW = [
   {
     title: "Avant le jeu 4",
     rappel:
-      "Le Parc Steinbach est un lieu de pause et de memoire collective dans l'histoire de Mulhouse.",
+      "Le Parc Steinbach est un lieu de pause et de mémoire collective dans l'histoire de Mulhouse.",
     lines: [
-      { from: "h", text: "Le tissu est presque pret." },
+      { from: "h", text: "Le tissu est presque prêt." },
       { from: "h", text: "Il reste le moment le plus important : l'offrir." },
       { from: "h", text: "On termine au Parc Steinbach." }
     ],
@@ -67,15 +67,15 @@ const FLOW = [
       coords: [47.7446, 7.3365]
     },
     nextUrl: "jeu_4/index.html",
-    cta: "Donné le cadeau"
+    cta: "Donner le cadeau"
   },
   {
-    title: "Epilogue",
-    rappel: "La creation est terminee.",
-    lines: [{ from: "h", text: "Merci pour ton aide. C'etait une belle aventure." }],
+    title: "Épilogue",
+    rappel: "La création est terminée.",
+    lines: [{ from: "h", text: "Merci pour ton aide. C'était une belle aventure." }],
     choices: ["Merci Henriette."],
     nextUrl: "finale.html",
-    cta: "Voir la scene de fin"
+    cta: "Voir la scène de fin"
   }
 ];
 
@@ -173,7 +173,7 @@ function showMapThenLaunch() {
   }
 
   const [lat, lng] = current.location.coords;
-  mapTitleEl.textContent = `Retrouve Henriette a ${current.location.name}`;
+  mapTitleEl.textContent = `Retrouve Henriette à ${current.location.name}`;
 
   // La carte devient une bulle dans le meme fil de messages.
   mapWrapEl.classList.remove("hidden");
@@ -262,7 +262,7 @@ async function enableCompass() {
     try {
       const result = await DeviceOrientationEvent.requestPermission();
       if (result !== "granted") {
-        setMapStatus("Boussole non autorisee");
+      setMapStatus("Boussole non autorisée");
         return;
       }
     } catch (_e) {
@@ -295,7 +295,7 @@ function ensureUserMarker(lat, lng) {
 
 function startUserLocation() {
   if (!navigator.geolocation) {
-    setMapStatus("Geolocalisation non supportee");
+    setMapStatus("Géolocalisation non supportée");
     return;
   }
 
@@ -317,15 +317,15 @@ function startUserLocation() {
       }
       const roundedDistance = Math.round(userDistanceMeters);
       if (roundedDistance <= MAX_START_DISTANCE_M) {
-        setMapStatus(`Position active: ${roundedDistance} m (ok pour lancer)`);
+        setMapStatus(`Position active : ${roundedDistance} m (ok pour lancer)`);
       } else {
-        setMapStatus(`Position active: ${roundedDistance} m (~${Math.round(accuracy)} m GPS)`);
+        setMapStatus(`Position active : ${roundedDistance} m (~${Math.round(accuracy)} m GPS)`);
       }
     },
     () => {
       userDistanceMeters = null;
       updateLaunchAvailability();
-      setMapStatus("Position refusee ou indisponible");
+      setMapStatus("Position refusée ou indisponible");
     },
     { enableHighAccuracy: true, maximumAge: 4000, timeout: 10000 }
   );
