@@ -880,9 +880,9 @@ function loose() {
     ctx.fillRect(0, 0, W, H);
     ctx.fillStyle = "#ffffff";
     ctx.font = `bold ${getResponsiveFontSize(34, 56, 0.065)}px serif`;
-    ctx.fillText("Défaite", centerX, centerY - 35, textMaxWidth);
+    ctx.fillText("Defeat", centerX, centerY - 35, textMaxWidth);
     ctx.font = `bold ${getResponsiveFontSize(20, 34, 0.04)}px serif`;
-    ctx.fillText("Vous en avez trop renverse a cote", centerX, centerY + 35, textMaxWidth);
+    ctx.fillText("You spilled too much outside", centerX, centerY + 35, textMaxWidth);
 
     const buttonWidth = 210;
     const buttonHeight = 62;
@@ -895,7 +895,7 @@ function loose() {
       y: buttonY,
       width: buttonWidth,
       height: buttonHeight,
-      label: "Ressayer",
+      label: "Retry",
       variant: "gold",
     });
   } else if (isTimerOver()) {
@@ -904,9 +904,9 @@ function loose() {
       ctx.fillRect(0, 0, W, H);
       ctx.fillStyle = "#ffffff";
       ctx.font = `bold ${getResponsiveFontSize(34, 56, 0.065)}px serif`;
-      ctx.fillText("Défaite", centerX, centerY - 35, textMaxWidth);
+      ctx.fillText("Defeat", centerX, centerY - 35, textMaxWidth);
       ctx.font = `bold ${getResponsiveFontSize(20, 34, 0.04)}px serif`;
-      ctx.fillText("Le verre cible n'a pas ete rempli", centerX, centerY + 35, textMaxWidth);
+      ctx.fillText("The target glass was not filled", centerX, centerY + 35, textMaxWidth);
 
       const buttonWidth = 210;
       const buttonHeight = 62;
@@ -919,7 +919,7 @@ function loose() {
         y: buttonY,
         width: buttonWidth,
         height: buttonHeight,
-        label: "Ressayer",
+        label: "Retry",
         variant: "gold",
       });
       ctx.textAlign = "left";
@@ -937,7 +937,7 @@ function loose() {
 
     ctx.fillStyle = "#ffffff";
     ctx.font = `bold ${getResponsiveFontSize(34, 56, 0.065)}px serif`;
-    ctx.fillText("Fin", centerX, centerY - 90, textMaxWidth);
+    ctx.fillText("End", centerX, centerY - 90, textMaxWidth);
 
     ctx.fillStyle = finalColorCss;
     ctx.beginPath();
@@ -950,7 +950,7 @@ function loose() {
 
     ctx.fillStyle = "#ffffff";
     ctx.font = `${getResponsiveFontSize(20, 30, 0.036)}px serif`;
-    ctx.fillText(`Couleur finale : ${finalColorHex}`, centerX, centerY + 95, textMaxWidth);
+    ctx.fillText(`Final color: ${finalColorHex}`, centerX, centerY + 95, textMaxWidth);
 
     const ctaWidth = 280;
     const ctaHeight = 64;
@@ -962,7 +962,7 @@ function loose() {
       y: ctaY,
       width: ctaWidth,
       height: ctaHeight,
-      label: "Continuer",
+      label: "Continue",
       variant: "gold",
     });
 
@@ -976,7 +976,7 @@ function loose() {
       y: secondaryY,
       width: secondaryWidth,
       height: secondaryHeight,
-      label: "Changer de couleur",
+      label: "Change color",
       variant: "ghost",
     });
   }

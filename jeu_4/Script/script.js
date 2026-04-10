@@ -335,8 +335,8 @@ function mettreAJourMonde(dt) {
 function verifierCollisions() {
   // Collision sol/plafond.
   const c = { x: henriette.x, y: henriette.y, r: henriette.rayonCollision };
-  if (henriette.y + henriette.rayonCollision >= monde.ySol) { henriette.y = monde.ySol - henriette.rayonCollision; return perdrePartie("Le carré touche le sol"); }
-  if (henriette.y - henriette.rayonCollision <= 0) { henriette.y = henriette.rayonCollision; return perdrePartie("Le carré touche le haut"); }
+  if (henriette.y + henriette.rayonCollision >= monde.ySol) { henriette.y = monde.ySol - henriette.rayonCollision; return perdrePartie("The square touched the ground"); }
+  if (henriette.y - henriette.rayonCollision <= 0) { henriette.y = henriette.rayonCollision; return perdrePartie("The square touched the top"); }
   for (const t of monde.tuyaux) {
     const haut = { x: t.x, y: 0, w: t.w, h: t.centreOuvertureY - t.hauteurOuverture * 0.5 };
     const bas = { x: t.x, y: t.centreOuvertureY + t.hauteurOuverture * 0.5, w: t.w, h: monde.ySol - (t.centreOuvertureY + t.hauteurOuverture * 0.5) };
@@ -349,7 +349,7 @@ function verifierCollisions() {
         jouerSonBonus();
         return;
       }
-      return perdrePartie("Collision avec un tuyau");
+      return perdrePartie("Collision with a pipe");
     }
   }
 }
@@ -361,48 +361,48 @@ function afficherMenu() {
   overlayCentre.classList.remove("hidden");
   carteMessage.innerHTML = `
     <h1>Henriette Flappy Challenge</h1>
-    <p>Atteins <strong>${configuration.objectifScore}</strong> points pour gagner.</p>
-    <p>Tap/clic ou Espace/Fleche haut pour flap.</p>
+    <p>Reach <strong>${configuration.objectifScore}</strong> points to win.</p>
+    <p>Tap/click or Space/Up Arrow to flap.</p>
     <div class="legende-tuyaux">
       <div class="carte-tuyau">
         <div class="mini-tuyau boost"></div>
-        <span class="effet-tuyau">Turbo +<br>bouclier</span>
+        <span class="effet-tuyau">Turbo +<br>shield</span>
       </div>
       <div class="carte-tuyau">
         <div class="mini-tuyau mobile"></div>
-        <span class="effet-tuyau">Monte /<br>descend</span>
+        <span class="effet-tuyau">Up /<br>down</span>
       </div>
       <div class="carte-tuyau">
         <div class="mini-tuyau inverse"></div>
-        <span class="effet-tuyau">Gravité<br>inversée</span>
+        <span class="effet-tuyau">Reverse<br>gravity</span>
       </div>
       <div class="carte-tuyau">
         <div class="mini-tuyau rafale"></div>
-        <span class="effet-tuyau">Rafales<br>verticales</span>
+        <span class="effet-tuyau">Vertical<br>gusts</span>
       </div>
       <div class="carte-tuyau">
         <div class="mini-tuyau fin"></div>
-        <span class="effet-tuyau">Tuyau<br>de fin</span>
+        <span class="effet-tuyau">Final<br>pipe</span>
       </div>
     </div>
     <div class="btn-row">
-      <button class="primary" id="startBtn">Démarrer</button>
+      <button class="primary" id="startBtn">Start</button>
     </div>
-    <p class="hint">Pause : touche P ou Échap.</p>
+    <p class="hint">Pause: press P or Escape.</p>
   `;
   brancherBoutonsOverlay();
 }
 function afficherPause() {
   overlayCentre.classList.remove("hidden");
-  carteMessage.innerHTML = `<h1>Jeu en pause</h1><p>La partie est suspendue.</p><p>Score actuel: <strong>${partie.score}</strong></p><div class="btn-row"><button class="primary" id="resumeBtn">Reprendre</button><button class="secondary" id="restartBtn">Recommencer</button></div><p class="hint">Utilise aussi P ou Echap pour reprendre.</p>`;
+  carteMessage.innerHTML = `<h1>Game paused</h1><p>The game is currently paused.</p><p>Current score: <strong>${partie.score}</strong></p><div class="btn-row"><button class="primary" id="resumeBtn">Resume</button><button class="secondary" id="restartBtn">Restart</button></div><p class="hint">You can also press P or Escape to resume.</p>`;
   brancherBoutonsOverlay();
 }
 function afficherFinPartie(titre, sousTitre, succes) {
   overlayCentre.classList.remove("hidden");
   const boutonContinuer = succes
-    ? `<button class="secondary" id="continueBtn">Continuer l'histoire</button>`
+    ? `<button class="secondary" id="continueBtn">Continue story</button>`
     : "";
-  carteMessage.innerHTML = `<h1 style="color:${succes ? "var(--succes)" : "var(--danger)"};">${titre}</h1><p>${sousTitre}</p><p>Score final : <strong>${partie.score}</strong></p><div class="btn-row"><button class="primary" id="startBtn">Rejouer</button>${boutonContinuer}</div><p class="hint">Tap ou Espace pour redémarrer rapidement.</p>`;
+  carteMessage.innerHTML = `<h1 style="color:${succes ? "var(--succes)" : "var(--danger)"};">${titre}</h1><p>${sousTitre}</p><p>Final score: <strong>${partie.score}</strong></p><div class="btn-row"><button class="primary" id="startBtn">Play again</button>${boutonContinuer}</div><p class="hint">Tap or press Space to restart quickly.</p>`;
   brancherBoutonsOverlay();
 }
 function brancherBoutonsOverlay() {
@@ -429,8 +429,8 @@ function demarrerPartie() {
   jouerSonSaut();
   if (monde.tuyaux.length === 0) genererPaireTuyaux();
 }
-function perdrePartie(raison) { if (partie.mode !== "en_cours") return; partie.mode = "perdu"; jouerSonDefaite(); afficherFinPartie("Partie terminée", raison, false); }
-function gagnerPartie() { if (partie.mode !== "en_cours") return; partie.mode = "gagne"; jouerSonVictoire(); afficherFinPartie("Bravo, objectif atteint!", `Tu as atteint ${configuration.objectifScore} points.`, true); }
+function perdrePartie(raison) { if (partie.mode !== "en_cours") return; partie.mode = "perdu"; jouerSonDefaite(); afficherFinPartie("Game over", raison, false); }
+function gagnerPartie() { if (partie.mode !== "en_cours") return; partie.mode = "gagne"; jouerSonVictoire(); afficherFinPartie("Great job, goal reached!", `You reached ${configuration.objectifScore} points.`, true); }
 
 // =========================================================
 // Rendu

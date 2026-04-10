@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#1a1208">
     <link rel="manifest" href="/manifest.json">
-    <title>Messages - Le tissu d'Henriette</title>
+    <title>Messages - Henriette's Fabric</title>
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body class="fond-accueil">
-    <a href="jeux.html" class="messages-menu-link">Tous les jeux</a>
+    <a href="jeux.html" class="messages-menu-link">All games</a>
     <main class="messages-page">
         <section class="messages-phone">
             <header class="messages-header">
@@ -24,9 +24,9 @@
             </header>
 
             <div id="rappel-historique" class="messages-rappel">
-                <h2>Rappel historique</h2>
+                <h2>Historical reminder</h2>
                 <p id="rappel-texte"></p>
-                <button id="btn-rappel" class="messages-btn">Lire les messages</button>
+                <button id="btn-rappel" class="messages-btn">Read messages</button>
             </div>
 
             <div id="messages-list" class="messages-list hidden"></div>
@@ -34,12 +34,12 @@
             <div id="messages-map-wrap" class="messages-map-wrap hidden">
                 <p id="messages-map-title" class="messages-map-title"></p>
                 <div class="messages-map-tools">
-                    <button id="btn-user-locate" class="messages-map-btn">Me localiser</button>
-                    <span id="messages-map-status" class="messages-map-status">Position inactive</span>
+                    <button id="btn-user-locate" class="messages-map-btn">Locate me</button>
+                    <span id="messages-map-status" class="messages-map-status">Location inactive</span>
                 </div>
                 <div id="messages-map" class="messages-map"></div>
             </div>
-            <button id="btn-lancer-jeu" class="messages-btn hidden" disabled>Lancer le jeu</button>
+            <button id="btn-lancer-jeu" class="messages-btn hidden" disabled>Start game</button>
         </section>
     </main>
 

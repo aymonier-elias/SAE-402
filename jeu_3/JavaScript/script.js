@@ -41,15 +41,15 @@ const CHAT_SESSIONS = {
         messagesId: 'chat-messages-intro',
         choicesId: 'chat-choices-intro',
         actionId: 'btn-launch-intro',
-        actionLabel: 'Lancer le jeu',
+        actionLabel: 'Start game',
         lines: [
-            { from: 'h', text: 'Cette rue... elle porte mon nom.' },
-            { from: 'h', text: 'On a la couleur et le motif, mais les pièces sont encore séparées.' },
-            { from: 'h', text: 'Aide-moi à assembler le tissu. C est ici que tout doit se réunir.' }
+            { from: 'h', text: 'This street... it bears my name.' },
+            { from: 'h', text: 'We have the color and the pattern, but the pieces are still separated.' },
+            { from: 'h', text: 'Help me assemble the fabric. This is where everything must come together.' }
         ],
         choices: [
-            'Je suis là, on assemble tout ensemble.',
-            'On y va, montre-moi la suite.'
+            'I am here, let us assemble everything together.',
+            'Let us go, show me the next step.'
         ]
     },
     outro: {
@@ -58,15 +58,15 @@ const CHAT_SESSIONS = {
         messagesId: 'chat-messages-outro',
         choicesId: 'chat-choices-outro',
         actionId: 'btn-launch-outro',
-        actionLabel: 'Voir le résultat',
+        actionLabel: 'See the result',
         lines: [
-            { from: 'h', text: 'Tu aurais vu son sourire...' },
-            { from: 'h', text: 'Elle a déplié le tissu lentement et l a regardé longtemps.' },
-            { from: 'h', text: 'Merci, tu m as aidée à créer bien plus qu un tissu.' }
+            { from: 'h', text: 'You should have seen her smile...' },
+            { from: 'h', text: 'She unfolded the fabric slowly and looked at it for a long time.' },
+            { from: 'h', text: 'Thank you, you helped me create much more than a fabric.' }
         ],
         choices: [
-            'C était une belle aventure.',
-            'Bravo Henriette, c était magnifique.'
+            'It was a beautiful adventure.',
+            'Well done Henriette, it was wonderful.'
         ]
     }
 };
@@ -127,7 +127,7 @@ function choixNiv(level) {
 function newMaze() {
     visited_path = [];
     generating   = true;
-    document.getElementById('status').textContent = 'Génération en cours...';
+    document.getElementById('status').textContent = 'Generating...';
 
     // Initialise toutes les cellules en tant que murs
     grid = new Array(COLS * ROWS).fill(true);
@@ -156,7 +156,7 @@ function newMaze() {
                 player = { c: 1, r: 1 };
                 visited_path.push({ c: 1, r: 1 });
                 redrawAll();
-                document.getElementById('status').textContent = 'Utilisez les flèches pour vous déplacer';
+                document.getElementById('status').textContent = 'Use arrows to move';
                 return;
             }
 
@@ -406,7 +406,7 @@ function showEnd() {
     const minutes  = Math.floor(elapsed / 60);
     const secondes = elapsed % 60;
     document.getElementById('end-temps').textContent =
-        `Temps : ${minutes > 0 ? minutes + 'min ' : ''}${secondes}s`;
+        `Time: ${minutes > 0 ? minutes + 'min ' : ''}${secondes}s`;
     document.getElementById('screen-end').classList.remove('hidden');
 }
 

@@ -1,7 +1,7 @@
 {
-  "name": "Le tissu d'Henriette",
+  "name": "Henriette's Fabric",
   "short_name": "Henriette",
-  "description": "Escape game mobile geolocalise a Mulhouse.",
+  "description": "Geo-based mobile escape game in Mulhouse.",
   "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",

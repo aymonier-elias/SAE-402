@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#1a1208">
     <link rel="manifest" href="/manifest.json">
-    <title>Henriette - Les Lumières de la Rue</title>
+    <title>Henriette - Street Lights</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -15,26 +15,26 @@
 
 <body>
 
-    <!-- Écran d'accueil -->
+    <!-- Start screen -->
     <div id="screen-start">
-        <h1>Labyrinthe</h1>
-        <p>Te voici devant la maison d'Henriette, telle qu'elle était à l'époque.</p>
+        <h1>Maze</h1>
+        <p>You are in front of Henriette's house, as it looked in the past.</p>
         <img src="Img/maison_henriette.png" alt="labyrinthe" id="illus">
         <div id="niveau-start">
-            <button id="start-facile">Facile</button>
-            <button id="start-moyen">Moyen</button>
-            <button id="start-difficile">Difficile</button>
+            <button id="start-facile">Easy</button>
+            <button id="start-moyen">Medium</button>
+            <button id="start-difficile">Hard</button>
         </div>
-        <button id="btn-jouer">Jouer</button>
+        <button id="btn-jouer">Start</button>
     </div>
 
-    <!-- Interface de jeu -->
-    <div id="status">Génération en cours...</div>
+    <!-- Game interface -->
+    <div id="status">Generating...</div>
     <div id="chrono">00:00</div>
-    <button id="btn-home" class="hidden">Accueil</button>
+    <button id="btn-home" class="hidden">Home</button>
     <canvas id="maze"></canvas>
 
-    <!-- Contrôles directionnels (usage mobile) -->
+    <!-- Directional controls (mobile) -->
     <div id="controls">
         <div id="btn-up">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -64,19 +64,19 @@
         </div>
     </div>
 
-    <!-- Sélecteur de difficulté en cours de partie -->
+    <!-- In-game difficulty selector -->
     <div id="niveau">
-        <button id="btn-facile">Facile</button>
-        <button id="btn-moyen">Moyen</button>
-        <button id="btn-difficile">Difficile</button>
+        <button id="btn-facile">Easy</button>
+        <button id="btn-moyen">Medium</button>
+        <button id="btn-difficile">Hard</button>
     </div>
 
-    <!-- Écran de fin de partie -->
+    <!-- End screen -->
     <div id="screen-end" class="hidden">
-        <h2>Bravo !</h2>
+        <h2>Great job!</h2>
         <p id="end-temps"></p>
-        <button id="btn-rejouer">Rejouer</button>
-        <button id="btn-next-game">Jeu 4</button>
+        <button id="btn-rejouer">Play again</button>
+        <button id="btn-next-game">Game 4</button>
     </div>
 
     <!-- Session messagerie avant le jeu -->
@@ -87,16 +87,16 @@
                 <small>En ligne</small>
             </div>
             <div id="history-intro" class="history-card">
-                <h3>Rappel historique</h3>
+                <h3>Historical reminder</h3>
                 <p>
-                    La rue Henriette porte un prénom féminin. À Mulhouse, ces rues rendent hommage
-                    aux femmes liées à l'histoire industrielle et familiale de la ville.
+                    Rue Henriette bears a female first name. In Mulhouse, these streets pay tribute
+                    to women linked to the city's industrial and family history.
                 </p>
-                <p class="tap-hint">Appuie sur l'écran pour continuer</p>
+                <p class="tap-hint">Tap the screen to continue</p>
             </div>
             <div id="chat-messages-intro" class="chat-messages hidden"></div>
             <div id="chat-choices-intro" class="chat-choices hidden"></div>
-            <button id="btn-launch-intro" class="chat-action hidden">Lancer le jeu</button>
+            <button id="btn-launch-intro" class="chat-action hidden">Start game</button>
         </div>
     </div>
 
@@ -108,12 +108,12 @@
                 <small>Le lendemain</small>
             </div>
             <div id="history-outro" class="history-card">
-                <h3>Rappel historique</h3>
+                <h3>Historical reminder</h3>
                 <p>
-                    Le tissu terminé symbolise la mémoire textile de Mulhouse :
-                    couleur, motif et assemblage réunis.
+                    The finished fabric symbolizes Mulhouse's textile memory:
+                    color, pattern, and assembly brought together.
                 </p>
-                <p class="tap-hint">Appuie sur l'écran pour lire les messages</p>
+                <p class="tap-hint">Tap the screen to read messages</p>
             </div>
             <div id="chat-messages-outro" class="chat-messages hidden"></div>
             <div id="chat-choices-outro" class="chat-choices hidden"></div>

@@ -117,7 +117,7 @@ async function choisirNiveau() {
     try {
       const perm = await DeviceOrientationEvent.requestPermission();
       if (perm !== 'granted') {
-        afficherNotification('Permission capteurs refusée', 'erreur');
+        afficherNotification('Sensor permission denied', 'erreur');
         return;
       }
     } catch (err) {}
@@ -210,7 +210,7 @@ function initialiserJeu() {
   mettreAJourMinuterie();
   clearInterval(intervalleMinuterie);
   intervalleMinuterie = setInterval(tick, 1000);
-  elementInstruction.textContent = 'Inclinez le téléphone pour guider la balle !';
+  elementInstruction.textContent = 'Tilt your phone to guide the ball!';
   requestAnimationFrame(boucle);
 }
 
@@ -221,7 +221,7 @@ function tick() {
   if (!jeuActif) return;
   secondesRestantes--;
   mettreAJourMinuterie();
-  if (secondesRestantes <= 0) declencherDefaite('Le temps est écoulé !');
+  if (secondesRestantes <= 0) declencherDefaite('Time is up!');
 }
 function mettreAJourMinuterie() {
   const m = Math.floor(secondesRestantes / 60), s = secondesRestantes % 60;
@@ -287,7 +287,7 @@ function mettreAJourBalle() {
   // ── Détection des trous ─────────────────────────────────
   for (const trou of trous) {
     if (Math.hypot(balle.x - trou.x, balle.y - trou.y) < CFG.rayonTrou) {
-      declencherDefaite('La balle est tombée dans un trou !');
+      declencherDefaite('The ball fell into a hole!');
       return;
     }
   }
@@ -311,7 +311,7 @@ function mettreAJourBalle() {
 function appliquerPenaliteTrou() {
   secouerCanvas();
   if (navigator.vibrate) navigator.vibrate([80, 30, 80]);
-  declencherDefaite('La balle est tombée dans un trou !');
+  declencherDefaite('The ball fell into a hole!');
 }
 
 /* ═══════════════════════════════════════════

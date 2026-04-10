@@ -4,78 +4,78 @@ const FLOW = [
   {
     title: "Prologue",
     rappel:
-      "Mulhouse est une ville textile. Chaque étape du parcours reprend un lieu réel et un savoir-faire local.",
+      "Mulhouse is a textile city. Each step of the journey is tied to a real place and local know-how.",
     lines: [
-      { from: "h", text: "Bonjour... Je m'appelle Henriette." },
-      { from: "h", text: "J'ai besoin d'aide pour créer un tissu unique pour ma mère." },
-      { from: "h", text: "Tu peux venir au Cours des Chaînes avec moi ?" }
+      { from: "h", text: "Hi... My name is Henriette." },
+      { from: "h", text: "I need help creating a unique fabric for my mother." },
+      { from: "h", text: "Can you come to Cours des Chaines with me?" }
     ],
-    choices: ["J'arrive !", "Oui, je te suis."],
+    choices: ["I'm on my way!", "Yes, I'm coming with you."],
     location: {
       name: "Cours des Chaines, Mulhouse",
       coords: [47.7487, 7.3382]
     },
     nextUrl: "jeu_1/index.html",
-    cta: "Créer la couleur"
+    cta: "Create the color"
   },
   {
-    title: "Avant le jeu 2",
+    title: "Before game 2",
     rappel:
-      "Le Cours des Chaînes était un lieu de teinture. Les couleurs des tissus y étaient des secrets d'atelier.",
+      "Cours des Chaines was a dyeing place. Fabric colors there were workshop secrets.",
     lines: [
-      { from: "h", text: "Super, on a trouvé la couleur." },
-      { from: "h", text: "Maintenant, il faut imaginer le motif du tissu." },
-      { from: "h", text: "Direction la Rue des Tanneurs." }
+      { from: "h", text: "Great, we found the color." },
+      { from: "h", text: "Now we need to imagine the fabric pattern." },
+      { from: "h", text: "Next stop: Rue des Tanneurs." }
     ],
-    choices: ["On continue.", "Je suis prêt."],
+    choices: ["Let's continue.", "I'm ready."],
     location: {
       name: "Rue des Tanneurs, Mulhouse",
       coords: [47.7483, 7.3393]
     },
     nextUrl: "jeu_2/index.html",
-    cta: "Trouver le motif"
+    cta: "Find the pattern"
   },
   {
-    title: "Avant le jeu 3",
+    title: "Before game 3",
     rappel:
-      "La Rue des Tanneurs rappelle les artisans qui transformaient la matière avec patience et précision.",
+      "Rue des Tanneurs recalls artisans who transformed materials with patience and precision.",
     lines: [
-      { from: "h", text: "Le motif est en place." },
-      { from: "h", text: "Il faut maintenant assembler toutes les pièces." },
-      { from: "h", text: "Rendez-vous Rue Henriette." }
+      { from: "h", text: "The pattern is ready." },
+      { from: "h", text: "Now we have to assemble all the pieces." },
+      { from: "h", text: "Meet me on Rue Henriette." }
     ],
-    choices: ["On y va.", "Je t'aide a assembler."],
+    choices: ["Let's go.", "I'll help you assemble it."],
     location: {
       name: "Rue Henriette, Mulhouse",
       coords: [47.74659371580632, 7.337241670299067]
     },
     nextUrl: "jeu_3/index.html",
-    cta: "Assembler le tissu"
+    cta: "Assemble the fabric"
   },
   {
-    title: "Avant le jeu 4",
+    title: "Before game 4",
     rappel:
-      "Le Parc Steinbach est un lieu de pause et de mémoire collective dans l'histoire de Mulhouse.",
+      "Parc Steinbach is a place of rest and shared memory in Mulhouse's history.",
     lines: [
-      { from: "h", text: "Le tissu est presque prêt." },
-      { from: "h", text: "Il reste le moment le plus important : l'offrir." },
-      { from: "h", text: "On termine au Parc Steinbach." }
+      { from: "h", text: "The fabric is almost ready." },
+      { from: "h", text: "Only the most important moment is left: giving it." },
+      { from: "h", text: "We finish at Parc Steinbach." }
     ],
-    choices: ["Allons-y.", "On finit l'aventure."],
+    choices: ["Let's go.", "Let's finish this adventure."],
     location: {
       name: "Parc Steinbach, Mulhouse",
       coords: [47.7446, 7.3365]
     },
     nextUrl: "jeu_4/index.html",
-    cta: "Donner le cadeau"
+    cta: "Give the gift"
   },
   {
-    title: "Épilogue",
-    rappel: "La création est terminée.",
-    lines: [{ from: "h", text: "Merci pour ton aide. C'était une belle aventure." }],
-    choices: ["Merci Henriette."],
+    title: "Epilogue",
+    rappel: "The creation is complete.",
+    lines: [{ from: "h", text: "Thank you for your help. It was a wonderful adventure." }],
+    choices: ["Thank you, Henriette."],
     nextUrl: "finale.html",
-    cta: "Voir la scène de fin"
+    cta: "See the final scene"
   }
 ];
 
@@ -173,7 +173,7 @@ function showMapThenLaunch() {
   }
 
   const [lat, lng] = current.location.coords;
-  mapTitleEl.textContent = `Retrouve Henriette à ${current.location.name}`;
+  mapTitleEl.textContent = `Meet Henriette at ${current.location.name}`;
 
   // La carte devient une bulle dans le meme fil de messages.
   mapWrapEl.classList.remove("hidden");
@@ -262,11 +262,11 @@ async function enableCompass() {
     try {
       const result = await DeviceOrientationEvent.requestPermission();
       if (result !== "granted") {
-      setMapStatus("Boussole non autorisée");
+      setMapStatus("Compass permission denied");
         return;
       }
     } catch (_e) {
-      setMapStatus("Boussole indisponible");
+      setMapStatus("Compass unavailable");
       return;
     }
   }
@@ -295,7 +295,7 @@ function ensureUserMarker(lat, lng) {
 
 function startUserLocation() {
   if (!navigator.geolocation) {
-    setMapStatus("Géolocalisation non supportée");
+    setMapStatus("Geolocation not supported");
     return;
   }
 
@@ -304,7 +304,7 @@ function startUserLocation() {
     userWatchId = null;
   }
 
-  setMapStatus("Recherche de votre position...");
+  setMapStatus("Searching for your location...");
   userWatchId = navigator.geolocation.watchPosition(
     (pos) => {
       const { latitude, longitude, accuracy } = pos.coords;
@@ -317,15 +317,15 @@ function startUserLocation() {
       }
       const roundedDistance = Math.round(userDistanceMeters);
       if (roundedDistance <= MAX_START_DISTANCE_M) {
-        setMapStatus(`Position active : ${roundedDistance} m (ok pour lancer)`);
+        setMapStatus(`Location active: ${roundedDistance} m (ready to start)`);
       } else {
-        setMapStatus(`Position active : ${roundedDistance} m (~${Math.round(accuracy)} m GPS)`);
+        setMapStatus(`Location active: ${roundedDistance} m (~${Math.round(accuracy)} m GPS)`);
       }
     },
     () => {
       userDistanceMeters = null;
       updateLaunchAvailability();
-      setMapStatus("Position refusée ou indisponible");
+      setMapStatus("Location denied or unavailable");
     },
     { enableHighAccuracy: true, maximumAge: 4000, timeout: 10000 }
   );
